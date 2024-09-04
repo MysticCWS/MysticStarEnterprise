@@ -10,7 +10,7 @@ require __DIR__.'/vendor/autoload.php';
 use Kreait\Firebase\Factory;
 
 $factory = (new Factory)
-    ->withServiceAccount('mysticstarenterprise-firebase-adminsdk-zo1pu-1d50fd568d')
+    ->withServiceAccount('mysticstarenterprise-firebase-adminsdk-zo1pu-839fb8bee7')
     ->withDatabaseUri('https://mysticstarenterprise-default-rtdb.asia-southeast1.firebasedatabase.app/');
 
 $database = $factory->createDatabase();
