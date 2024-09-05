@@ -3,7 +3,7 @@ include 'includes\header.php';
 echo ' | Index';
 include 'includes\header2.php';
 ?>
-testing
+testing 02
 <?php
 include 'includes\footer.php';
 ?>
