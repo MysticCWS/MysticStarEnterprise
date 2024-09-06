@@ -1,7 +1,7 @@
 <?php 
 include 'dbcon.php';
 include 'includes\header.php'; 
-echo ' | Index';
+echo ' | Sign Up';
 include 'includes\header2.php';
 ?>
 
