@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Project/PHP/PHPProject.php to edi
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <link rel="icon" href="icon/titleicon.png" type="image/x-icon">
+        <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/icons%2Fmse_icon.png?alt=media" type="image/x-icon">
         
         <!-- CSS -->
         <link rel="stylesheet" href="style.css"/>
