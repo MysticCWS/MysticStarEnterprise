@@ -8,6 +8,7 @@
 require __DIR__.'/vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
+use Kreait\Firebase\Auth;
 
 //Realtime Database
 $factory = (new Factory)
@@ -15,6 +16,9 @@ $factory = (new Factory)
     ->withDatabaseUri('https://mysticstarenterprise-default-rtdb.asia-southeast1.firebasedatabase.app/');
 
 $database = $factory->createDatabase();
+
+//Auth Users
+$auth = $factory->createAuth();
 
 //Storage
 $storage = (new Factory())
