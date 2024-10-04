@@ -4,17 +4,18 @@ echo ' | User Profile';
 include 'includes\header2.php';
 include 'includes\navbar.php';
 ?>
+
 <div>
-    <div>
+    <div class="title">
         <h2>Profile Information</h2>
     </div>
     
-    <td>
-        
-    </td>
-    
-    <div>
-        <table>
+    <div class="profile-info">
+        <div>
+            <img src="/api/placeholder/150/150" alt="Profile Picture" class="profile-img mb-3">
+        </div>
+         <table>
+            
             <tr>
                 <td>Username:</td>
                 <td></td>
@@ -34,6 +35,7 @@ include 'includes\navbar.php';
         </table>
     </div>
 </div>
+
 
 <?php
 include 'includes\footer.php';

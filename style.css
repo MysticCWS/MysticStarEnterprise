@@ -7,6 +7,86 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Author     : User
 */
 footer.footercolor{
-    background:#4A4A4A;
+    background:#353839; /* Onyx */  
+    color: white;
+    position: fixed;
+    bottom:0;
+    width:100%;
+    left:0;
 }
 
+div.profile-info{
+    background-color: #bbdcf0;
+    text-align: 'center';
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+    line-height: 200%;
+}
+
+div.profile-info table{
+    width:100%;
+    margin: auto;
+}
+div.profile-info td {
+    padding: 15px; /* Add padding to table cells */
+/*    text-align: left;  Align text to the left */
+    font-family: "Arial";
+    font-size: 16px;
+}
+
+div.title h2{
+    margin-top:7%;
+}
+
+/* Navbar container styles */
+nav.navbar {
+    background-color: #353839;
+    overflow: hidden;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    left: 0;
+}
+
+/* Styles for the nav links */
+nav.navbar li {
+    display: inline; /* This makes each <li> display inline */
+    margin-right: 10px; /* Adds spacing between list items */
+}
+
+/* Link styles within the navbar */
+nav.navbar li a {
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Link hover styles */
+nav.navbar li a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Remove default list styles */
+nav.left-side, nav.right-side {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Align left-side items in a row */
+nav.left-side {
+    display: flex; /* Makes all <li> children in this list display in a row */
+}
+
+/* Align right-side items in a row */
+nav.right-side {
+    display: flex;
+    align-items: center; /* Vertically aligns the logout icon in the middle */
+}
