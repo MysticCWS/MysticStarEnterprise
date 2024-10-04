@@ -5,7 +5,7 @@ echo ' | Home';
 include 'includes\header2.php';
 ?>
 
-//Show Status
+<!--Show Status-->
     <?php
         if(isset($_SESSION['status'])){
             echo "<h5 class='alert alert-success>".$_SESSION['status']."</h5>";

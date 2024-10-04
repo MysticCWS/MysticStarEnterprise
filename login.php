@@ -6,7 +6,7 @@ echo ' | Login';
 include 'includes\header2.php';
 ?>
 <div class="col-md-4 mx-auto px-4 py-5 border rounded bg-white">
-    //Show Status
+<!--Show Status-->
     <?php
         if(isset($_SESSION['status'])){
             echo "<h5 class='alert alert-success>".$_SESSION['status']."</h5>";
