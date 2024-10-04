@@ -6,7 +6,15 @@ echo ' | Login';
 include 'includes\header2.php';
 ?>
 <div class="col-md-4 mx-auto px-4 py-5 border rounded bg-white">
-    <form id="loginForm" class="was-validated" method="POST">
+    //Show Status
+    <?php
+        if(isset($_SESSION['status'])){
+            echo "<h5 class='alert alert-success>".$_SESSION['status']."</h5>";
+            unset($_SESSION['status']);
+        }
+    ?>
+    
+    <form action="function_login.php" id="loginForm" class="was-validated" method="POST">
         <div class="row g-2 my-3 mx-2">
             <div class="col-md">
                 <h3>Login</h3>
@@ -36,7 +44,7 @@ include 'includes\header2.php';
             </div>
         </div>
         <div class="submit-login">
-            <button id="btnLogin" class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <button id="btnLogin" class="btn btn-outline-success my-2 my-sm-0" name="btnLogin" type="submit">Login</button>
         </div>
     </form>
 </div>

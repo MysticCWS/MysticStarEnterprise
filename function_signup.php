@@ -9,16 +9,17 @@ session_start();
 include 'dbcon.php';
 
 if (isset($_POST['btnCreate'])){
-    $user_email = S_POST['user_email'];
-    $user_password = S_POST['user_password'];
-    $user_name = S_POST['user_name'];
-    $user_contact = S_POST['user_contact'];
+    $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
+    $user_name = $_POST['user_name'];
+    $user_contact = $_POST['user_contact'];
     
     $userProperties = [
-        'user_email' => $user_email,
-        'user_password' => $user_password,
-        'user_name' => $user_name,
-        'user_contact' => $user_contact
+        'email' => $user_email,
+        'emailVerified' => false,
+        'password' => $user_password,
+        'displayName' => $user_name,
+        'phoneNumber' => '+6'.$user_contact
     ];
     
     $createdUser = $auth -> createUser($userProperties);
