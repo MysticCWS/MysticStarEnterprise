@@ -1,9 +1,3 @@
-
-
-<!DOCTYPE html>
-<html>
-    
-    <body>
         <nav class="navbar">
             <ul class="left-side">
                 <li><a href="index.php">Homepage</a></li>
@@ -21,5 +15,3 @@
                 </li>
             </ul>          
         </nav>
-    </body>
-</html>
