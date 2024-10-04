@@ -6,13 +6,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : Sep 30, 2024, 12:47:31 PM
     Author     : User
 */
-footer.footercolor{
+.footercolor{
     background:#353839; /* Onyx */  
     color: white;
-    position: fixed;
-    bottom:0;
-    width:100%;
-    left:0;
+    //position: relative;
+    //bottom:0;
+    //width:100%;
+    //left:0;
 }
 
 div.profile-info{
