@@ -15,11 +15,11 @@
             <div class="d-flex justify-content-center">
                 <p class="pt-2 me-3">
                     <i class="bi bi-envelope"></i> 
-                    <a href="mailto:mysticstar.ent@gmail.com">mysticstar.ent@gmail.com</a>
+                    <a href="mailto:mysticstar.ent@gmail.com" class="afooter">mysticstar.ent@gmail.com</a>
                 </p>
                 <p class="pt-2">
                     <i class="bi bi-telephone"></i> 
-                    <a href="tel:+601159229221">+6011-59229221</a>
+                    <a href="tel:+601159229221" class="afooter">+6011-59229221</a>
                 </p>
             </div>
             <p class="small">&copy; Mystic Star Enterprise 2024</p>

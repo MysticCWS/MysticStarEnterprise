@@ -6,12 +6,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : Sep 30, 2024, 12:47:31 PM
     Author     : User
 */
+
+a.afooter:link {
+    text-decoration: none;
+    color: white;
+}
+
+a.afooter:hover{
+    text-decoration: underline;
+}
+
+a:link {
+    text-decoration: none;
+    color: darkslategray;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
 .footercolor{
     background:#353839; /* Onyx */  
     color: white;
 }
 
-div.profile-info{
+/*div.profile-info{
     background-color: #bbdcf0;
     text-align: 'center';
     padding: 20px;
@@ -26,15 +45,11 @@ div.profile-info table{
     margin: auto;
 }
 div.profile-info td {
-    padding: 15px; /* Add padding to table cells */
-/*    text-align: left;  Align text to the left */
+    padding: 15px;  Add padding to table cells 
+    text-align: left;  Align text to the left 
     font-family: "Arial";
     font-size: 16px;
-}
-
-div.title h2{
-    margin-top:7%;
-}
+}*/
 
 /* Navbar container styles */
 nav.navbar {
@@ -85,4 +100,79 @@ nav.left-side {
 nav.right-side {
     display: flex;
     align-items: center; /* Vertically aligns the logout icon in the middle */
+}
+
+div.content {
+    margin-top:7%;
+}
+
+div.title{
+    font-family: Georgia;
+    font-weight: bold;
+    
+}
+.profile-container {
+    width: 100%;
+    margin: 50px auto;
+    background: #cef4f1;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+div.profile-header {
+    text-align: center;
+}
+div.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+div.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+div.edit-photo {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: none;
+}
+div.profile-picture:hover .edit-photo {
+    display: block;
+}
+form.profile-info {
+    margin-top: 20px;
+}
+form.profile-info label {
+    display: block;
+    margin: 10px 0 5px;
+}
+form.profile-info input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+button.save-btn {
+    background-color: #383f3f;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button.save-btn:hover {
+    background-color: #505654;
 }

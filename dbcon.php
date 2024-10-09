@@ -9,6 +9,8 @@ require __DIR__.'/vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
+use Kreait\Firebase\Auth\UserQuery;
+use Kreait\Firebase\Auth\SignInResult\SignInResult;
 
 //Realtime Database
 $factory = (new Factory)
