@@ -19,7 +19,7 @@ if (isset($_POST['btnCreate'])){
         'emailVerified' => false,
         'password' => $user_password,
         'displayName' => $user_name,
-        'photoUrl'=> null,
+        'photoUrl'=> '',
         'phoneNumber' => '+6'.$user_contact
     ];
     
