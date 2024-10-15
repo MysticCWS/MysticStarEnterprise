@@ -11,6 +11,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Auth;
 use Kreait\Firebase\Auth\UserQuery;
 use Kreait\Firebase\Auth\SignInResult\SignInResult;
+use Kreait\Firebase\Contract\Storage;
 
 //Realtime Database
 $factory = (new Factory)
@@ -28,5 +29,5 @@ $storage = (new Factory())
     ->createStorage();
 
 $storageClient = $storage->getStorageClient();
-$defaultBucket = $storage->getBucket();
+$bucket = $storage->getBucket();
 $anotherBucket = $storage->getBucket('another-bucket');

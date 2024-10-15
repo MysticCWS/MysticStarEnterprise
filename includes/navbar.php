@@ -1,4 +1,4 @@
-        <nav class="navbar">
+        <nav class="navbar navstyle">
             <ul class="left-side">
                 <li><a href="home.php">Homepage</a></li>
                 <li><a href="products.php">Products</a></li>
@@ -30,3 +30,5 @@
                 <?php endif; ?>
             </ul>          
         </nav>
+        
+    <div class="container">

@@ -52,15 +52,19 @@ div.profile-info td {
 }*/
 
 /* Navbar container styles */
+nav.navstyle {
+    
+}
+
 nav.navbar {
     background-color: #353839;
     overflow: hidden;
     display: flex;
-    position: fixed;
+    /*position: sticky;*/
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    left: 0;
+/*    left: 0;*/
 }
 
 /* Styles for the nav links */
@@ -165,7 +169,7 @@ form.profile-info input{
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-button.save-btn {
+button.btnSave {
     background-color: #383f3f;
     color: white;
     padding: 10px 15px;
@@ -173,6 +177,6 @@ button.save-btn {
     border-radius: 5px;
     cursor: pointer;
 }
-button.save-btn:hover {
+button.btnSave:hover {
     background-color: #505654;
 }
