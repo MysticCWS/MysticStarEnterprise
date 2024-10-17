@@ -14,6 +14,37 @@ if(isset($_SESSION['verified_user_id'])){
         echo $e->getMessage();
     }
 }
+
+if (isset($_FILES['myfile']['name'])){
+    $defaultBucket->upload(
+        file_get_contents($_FILES['myfile']['tmp_name']),
+        [
+        'name' =>"profile/".$uid.".png"
+        ]
+    );
+}
+
+if (isset($_POST['btnSave'])){
+    $user_name = $_POST['user_name'];
+    $user_contact = $_POST['user_contact'];
+    
+    if(URLcheck($userurl)){
+        $userProperties = [
+            'displayName' => $user_name,
+            'photoUrl'=> $userurl,
+            'phoneNumber' => $user_contact
+        ];
+    }
+    else {
+        $userProperties = [
+            'displayName' => $user_name,
+            'photoUrl'=> '',
+            'phoneNumber' => $user_contact
+        ];
+    }
+    
+    $updatedUser = $auth -> updateUser($uid, $userProperties);
+}
 ?>
 
 <div class="content">
