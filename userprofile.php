@@ -19,14 +19,13 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if ($_FILES['myfile']['name']){
+if (isset($_FILES['myfile']['name'])){
     $defaultBucket->upload(
         file_get_contents($_FILES['myfile']['tmp_name']),
         [
         'name' =>"profile/".$uid.".png"
         ]
     );
-    
 }
 
 if (isset($_POST['btnSave'])){
