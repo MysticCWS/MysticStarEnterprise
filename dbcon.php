@@ -25,9 +25,17 @@ $auth = $factory->createAuth();
 
 //Storage
 $storage = (new Factory())
-    ->withDefaultStorageBucket('gs://mysticstarenterprise.appspot.com')
+    ->withServiceAccount('mysticstarenterprise-firebase-adminsdk-zo1pu-839fb8bee7.json')
+    ->withDefaultStorageBucket('mysticstarenterprise.appspot.com')
     ->createStorage();
 
 $storageClient = $storage->getStorageClient();
-$bucket = $storage->getBucket();
+$defaultBucket = $storage->getBucket();
 $anotherBucket = $storage->getBucket('another-bucket');
+
+
+//Check if a URL exists
+function URLcheck($url){
+   $headers=get_headers($url);
+   return stripos($headers[0],"200 OK")?true:false;
+}
