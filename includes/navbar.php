@@ -4,7 +4,7 @@
                 <li><a href="products.php">Products</a></li>
                 <li><a href="cart.php">Cart</a></li>
                 <li><a href="orderhistory.php">Order History</a></li>
-                <li><a href="cartridge_submission.php">Cartridge Submission</a></li>
+                <li><a href="submitcartridge.php">Cartridge Submission</a></li>
             </ul>
             <ul class="right-side">
                 <?php if(isset($_SESSION['verified_user_id'])) : ?>
