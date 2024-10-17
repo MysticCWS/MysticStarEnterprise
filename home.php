@@ -9,19 +9,7 @@ include 'includes\navbar.php';
 //Fetch carousel from database
 $ref_table = 'carousel';
 $carousel_images = $database->getReference($ref_table)->getValue();
-//foreach ($carousel_images as $key => $row) {
-//    echo $row['carouselurl'];
-//}
-//    $carousel_query = "select * from carousel";
-//    $carousel_result = mysqli_query($con, $carousel_query);
-//    
-//    $carousel_images = [];
-//    if ($carousel_result->num_rows > 0){
-//        while($carousel_row = $carousel_result->fetch_assoc()){
-//            $carousel_images[] = $carousel_row['img_dir'];
-//        }
-//    }
-//    
+
 //$carouselurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/carousel%2F";
 //$carouselurlsuffix = "?alt=media";
 //$carouselurl = $carouselurlprefix.$carouselnum.$carouselurlsuffix;
