@@ -6,6 +6,16 @@ echo ' | Products';
 include 'includes\header2.php';
 include 'includes\navbar.php';
 
+//Get UID
+if(isset($_SESSION['verified_user_id'])){
+    $uid = $_SESSION['verified_user_id'];
+    try {
+        $user = $auth->getUser($uid);
+        } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
+        echo $e->getMessage();
+    }
+}
+
 //Fetch product from database
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
@@ -59,26 +69,19 @@ $products = $database->getReference($ref_table)->getValue();
                                     </div>
                                     <div class="modal-body">
                                         <!-- Form for modifying order -->
-                                        <form id="orderForm" method="POST" action="function_order.php">
+                                        <form id="addtocartForm" method="POST" action="function_addtocart.php">
                                             <div class="mb-3">
-                                                <input type="hidden" name="user_id" value="<?php echo $user_data['user_id']; ?>">
-                                                <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                                                <label for="quantity-<?php echo $item['item_id']; ?>" class="form-label">Quantity</label>
-                                                <input type="number" class="form-control" name="purchase_qty" id="quantity-<?php echo $item['item_id']; ?>" value="1" min="1">
+                                                <input type="hidden" name="uid" value="<?php echo $uid; ?>">
+                                                <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                                <p>Price per Unit: RM <?php echo $product['product_price'];?></p>
+                                                <label for="quantity-<?php echo $product['product_id']; ?>" class="form-label">Quantity</label>
+                                                <input type="number" class="form-control" name="purchase_qty" id="quantity-<?php echo $product['product_id']; ?>" value="1" min="1">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="location-<?php echo $item['item_id']; ?>" class="form-label">Order Location</label>
-                                                <select class="form-select" name="purchase_location" id="location-<?php echo $item['item_id']; ?>" required>
-                                                    <option value="">Select Location</option>
-                                                    <option value="Level 2 Foyer">Level 2 Foyer</option>
-                                                    
-                                                </select>
+                                                <label for="remark-<?php echo $product['product_id']; ?>" class="form-label">Order Remarks (Optional)</label>
+                                                <input type="text" class="form-control" id="remark-<?php echo $product['product_id']; ?>" name="purchase_remark" value="<?php echo '' ?>">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="time-<?php echo $item['item_id']; ?>" class="form-label">Order Time</label>
-                                                <input type="time" class="form-control" id="time-<?php echo $item['item_id']; ?>" name="purchase_time" value="<?php echo date('H:i') ?>" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-outline-secondary">Add to Cart</button>
+                                            <button type="submit" class="btn btn-outline-secondary" name="">Add to Cart</button>
                                         </form>
                                     </div>
                                 </div>
