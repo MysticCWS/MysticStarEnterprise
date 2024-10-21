@@ -20,45 +20,60 @@ if (isset($_SESSION['verified_user_id'])) {
     echo "Please log in to submit a cartridge.";
     exit();
 }
+
+//Fetch data from database
+$printerlist_table = 'printerlist';
+$canonPrinterlists = $database->getReference('printerlist/canon')->getValue();
+$hpPrinterlists = $database->getReference('printerlist/hp')->getValue();
+
 ?>
 
 <div class="content">
-    <h2 class="title">Cartridge Recycling Program</h2>
-    <form action="submit_cartridge.php" method="POST" class="cartridge-form" id="cartridgeForm">
-        <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
+    <div class="c-wrapper">
+        <h2 class="title">Cartridge Recycling Program</h2>
+        <form action="submit_cartridge.php" method="POST" class="cartridge-form" id="cartridgeForm">
+            <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
 
-        <div class="form-group">
-            <label for="name">Cartridge Name:</label>
-            <input type="text" id="name" name="name" class="input-field" required>
-        </div>
+            <div class="form-group">
+                <label for="name">Please Select your Printer Brand</label>
+                <select name=""
+                    <option value="Canon">Canon</option>
+                    <option value="HP">HP</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="type">Cartridge Type:</label>
-            <input type="text" id="type" name="type" class="input-field" required>
-        </div>
+            <div class="form-group">
+                <label for="type">Cartridge Type:</label>
+                <input type="text" id="type" name="type" class="input-field" required>
+            </div>
 
-        <div class="form-group">
-            <label for="model">Model:</label>
-            <input type="text" id="model" name="model" class="input-field" required>
-        </div>
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="select" id="model" name="model" class="input-field" required>
+            </div>
+            
+                <?php foreach ($canonPrinterlists as $canonPrinterlist){
+                    echo "<option>".$canonPrinterlist."</option>";
+                }?>
 
-        <div class="form-group">
-            <label for="manufacturer">Manufacturer:</label>
-            <input type="text" id="manufacturer" name="manufacturer" class="input-field" required>
-        </div>
+            <div class="form-group">
+                <label for="manufacturer">Manufacturer:</label>
+                <input type="text" id="manufacturer" name="manufacturer" class="input-field" required>
+            </div>
 
-        <div class="form-group">
-            <label for="notes">Additional Notes:</label>
-            <textarea id="notes" name="notes" class="input-field textarea-field"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" class="input-field textarea-field"></textarea>
+            </div>
 
-        <div class="form-group">
-            <input type="checkbox" id="termsCheckbox" required>
-            <label for="termsCheckbox">I agree to the <a href="#" id="termsLink">Terms and Conditions</a>.</label>
-        </div>
+            <div class="form-group">
+                <input type="checkbox" id="termsCheckbox" required>
+                <label for="termsCheckbox">I agree to the <a href="#" id="termsLink">Terms and Conditions</a>.</label>
+            </div>
 
-        <button type="submit" class="btnSave" id="submitBtn" disabled>Submit Cartridge</button>
-    </form>
+            <button type="submit" class="btnSave" id="submitBtn" disabled>Submit Cartridge</button>
+        </form>
+    </div>
 </div>
 
 
