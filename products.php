@@ -20,8 +20,52 @@ if(isset($_SESSION['verified_user_id'])){
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
 
+//Fetch cart items from database for this user
+$cart_table = 'cart';
+$cartItems = $database->getReference($cart_table)->getValue($uid);
 
-//Fetch coffee item from database
+//Add items to cart
+if (isset($_POST['btnAddToCart'])){
+    $user_id = $_POST['user_id'];
+    $item_id = $_POST['item_id'];
+    $purchase_qty = $_POST['purchase_qty'];
+    $purchase_remark = $_POST['purchase_remark'];
+    
+    $cartData = [
+        'uid'=>$user_id,
+        'item_id'=>$item_id,
+        'purchase_qty'=>$purchase_qty,
+        'purchase_remark'=>$purchase_remark
+    ];
+    
+    foreach ($cartItems as $cartItem){
+        if($cartItem['item_id'] === $item_id){
+            
+        }
+    }
+    $checkexistingCartItems = $database->getReference($cart_table)->getValue($uid)->exists($item_id);
+    $existingCartItems = $database->getReference($cart_table)->getValue();
+    
+    if($existingCartItems){
+        $added_purchase_qty = $purchase_qty + 
+        $cartData = [
+            'uid'=>$user_id,
+            'item_id'=>$item_id,
+            'purchase_qty'=>$purchase_qty +,
+            'purchase_remark'=>$purchase_remark
+        ];
+    }
+    
+    $postCartRef = $database->getReference($cart_table)->push($cartData); 
+    if($postCartRef){
+        echo "Item Added to Cart Successfully.";
+        header("Location: products.php#product_list");
+    }
+    
+}
+
+
+////Fetch coffee item from database
 //    $item_query = "select * from item";
 //    $item_result = mysqli_query($con, $item_query);
 //
@@ -69,10 +113,10 @@ $products = $database->getReference($ref_table)->getValue();
                                     </div>
                                     <div class="modal-body">
                                         <!-- Form for modifying order -->
-                                        <form id="addtocartForm" method="POST" action="function_addtocart.php">
+                                        <form id="addtocartForm" method="POST" >
                                             <div class="mb-3">
-                                                <input type="hidden" name="uid" value="<?php echo $uid; ?>">
-                                                <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                                <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
+                                                <input type="hidden" name="item_id" value="<?php echo $product['product_id']; ?>">
                                                 <p>Price per Unit: RM <?php echo $product['product_price'];?></p>
                                                 <label for="quantity-<?php echo $product['product_id']; ?>" class="form-label">Quantity</label>
                                                 <input type="number" class="form-control" name="purchase_qty" id="quantity-<?php echo $product['product_id']; ?>" value="1" min="1">
@@ -81,7 +125,7 @@ $products = $database->getReference($ref_table)->getValue();
                                                 <label for="remark-<?php echo $product['product_id']; ?>" class="form-label">Order Remarks (Optional)</label>
                                                 <input type="text" class="form-control" id="remark-<?php echo $product['product_id']; ?>" name="purchase_remark" value="<?php echo '' ?>">
                                             </div>
-                                            <button type="submit" class="btn btn-outline-secondary" name="">Add to Cart</button>
+                                            <button type="submit" class="btn btn-outline-secondary" name="btnAddToCart">Add to Cart</button>
                                         </form>
                                     </div>
                                 </div>
