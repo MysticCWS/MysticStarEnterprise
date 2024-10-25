@@ -141,17 +141,6 @@ if (isset($_POST['btnAddToCart'])){
 //    
 //}
 
-
-////Fetch coffee item from database
-//    $item_query = "select * from item";
-//    $item_result = mysqli_query($con, $item_query);
-//
-//    $items = [];
-//    if ($item_result->num_rows > 0) {
-//        while($item_row = $item_result->fetch_assoc()) {
-//            $items[] = $item_row;
-//        }
-//    }
     
 //$carouselurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/carousel%2F";
 //$carouselurlsuffix = "?alt=media";
