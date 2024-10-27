@@ -36,7 +36,7 @@ $carousel_images = $database->getReference($ref_table)->getValue();
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $key; ?>" class="<?php echo $key === 0 ? 'active' : ''; ?>" aria-current="true" aria-label="Slide <?php echo $key + 1; ?>"></button>
                 <?php endforeach; ?>
             </div>
-            <div class="carousel-inner">
+            <div class="carousel-inner" data-bs-interval="4000">
                 <?php foreach ($carousel_images as $key => $image): ?>
                     <div class="carousel-item <?php echo $key === 0 ? 'active' : ''; ?>">
                         <img src="<?php echo $image['carouselurl']; ?>" class="center-block" width="35%" alt="Slide <?php echo $key + 1; ?>">

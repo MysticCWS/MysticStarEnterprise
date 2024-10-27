@@ -28,61 +28,104 @@ $cartItems = $database->getReference($cart_table)->getValue($uid);
 if (isset($_POST['btnAddToCart'])){
     $user_id = $_POST['user_id'];
     $item_sku = $_POST['item_sku'];
+    $item_name = $_POST['item_name'];
+    $item_imgurl = $_POST['item_imgurl'];
+    $item_price = $_POST['item_price'];
     $purchase_qty = $_POST['purchase_qty'];
     $purchase_remark = $_POST['purchase_remark'];
     $cart_key = '';
     
     foreach ($cartItems as $cartItem){
         $cartItemSKU = $cartItem['item_sku'];
+        $cartUserID = $cartItem['uid'];
         if($item_sku === $cartItemSKU){
-            $newPurchase_qty = $purchase_qty + $cartItem['purchase_qty'];
-            $cartData = [
-                'uid'=>$user_id,
-                'item_sku'=>$item_sku,
-                'purchase_qty'=>$newPurchase_qty,
-                'purchase_remark'=>$purchase_remark,
-                'cart_key'=>$cartItem['cart_key']
-            ];
+            if ($user_id === $cartUserID){
+                $newPurchase_qty = $purchase_qty + $cartItem['purchase_qty'];
+                $cartData = [
+                    'uid'=>$user_id,
+                    'item_sku'=>$item_sku,
+                    'item_name'=>$item_name,
+                    'item_imgurl'=>$item_imgurl,
+                    'item_price'=>$item_price,
+                    'purchase_qty'=>$newPurchase_qty,
+                    'purchase_remark'=>$purchase_remark,
+                    'cart_key'=>$cartItem['cart_key']
+                ];
+
+                $cartKey = $cartItem['cart_key'];
+                $updateCart_table = 'cart/'.$cartKey;
+                $postCartRef = $database->getReference($updateCart_table)->update($cartData);
+
+                if($postCartRef){
+                    header("Location: products.php#product_list");
+                    echo "Item Added to Cart Successfully.";
+                    die();
+                }
+            }
             
         } else {
             $cartData = [
                 'uid'=>$user_id,
                 'item_sku'=>$item_sku,
+                'item_name'=>$item_name,
+                'item_imgurl'=>$item_imgurl,
+                'item_price'=>$item_price,
                 'purchase_qty'=>$purchase_qty,
                 'purchase_remark'=>$purchase_remark,
                 'cart_key'=>''
             ];
-        }
-        
-        $cartKey = $cartItem['cart_key'];
-        if ($cartKey !== ''){
-            $updateCart_table = 'cart/'.$cartKey;
-            $postCartRef = $database->getReference($updateCart_table)->update($cartData);
-            
-            if($postCartRef){
-                echo "Item Added to Cart Successfully.";
-                header("Location: products.php#product_list");
-                die();
-            }
-            
-        } else {
             $postCartRef = $database->getReference($cart_table)->push($cartData)->getKey();
             $cartUpdate = [
                 'uid'=>$user_id,
                 'item_sku'=>$item_sku,
+                'item_name'=>$item_name,
+                'item_imgurl'=>$item_imgurl,
+                'item_price'=>$item_price,
                 'purchase_qty'=>$purchase_qty,
                 'purchase_remark'=>$purchase_remark,
                 'cart_key'=>$postCartRef
             ];
+            
             $updateCart_table = 'cart/'.$postCartRef;
             $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
             
             if($updateCartRef){
-                echo "Item Added to Cart Successfully.";
                 header("Location: products.php#product_list");
+                echo "Item Added to Cart Successfully.";
                 die();
             }
         }
+        
+//        $cartKey = $cartItem['cart_key'];
+//        if ($cartKey !== ''){
+//            $updateCart_table = 'cart/'.$cartKey;
+//            $postCartRef = $database->getReference($updateCart_table)->update($cartData);
+//            
+//            if($postCartRef){
+//                header("Location: products.php#product_list");
+//                echo "Item Added to Cart Successfully.";
+//                die();
+//            }
+//            
+//        } else {
+//            $postCartRef = $database->getReference($cart_table)->push($cartData)->getKey();
+//            $cartUpdate = [
+//                'uid'=>$user_id,
+//                'item_sku'=>$item_sku,
+//                'item_price'=>$item_price,
+//                'purchase_qty'=>$purchase_qty,
+//                'purchase_remark'=>$purchase_remark,
+//                'cart_key'=>$postCartRef
+//            ];
+//            $updateCart_table = 'cart/'.$postCartRef;
+//            $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
+//            
+//            if($updateCartRef){
+//                header("Location: products.php#product_list");
+//                echo "Item Added to Cart Successfully.";
+//                die();
+//            }
+//        }
     }
 }
 //            foreach ($products as $product){
@@ -160,7 +203,7 @@ if (isset($_POST['btnAddToCart'])){
                         <img class="card-img-top" src="<?php echo $product['product_imgurl']; ?>" alt="<?php echo $product['product_name']; ?>">
                         <div class="card-body">
                             <h4 class="card-title"><?php echo $product['product_name']; ?></h4>
-                            <h5>RM <?php echo $product['product_price']; ?></h5>
+                            <h5>RM <?php echo number_format($product['product_price'], 2); ?></h5>
                             <p class="card-text"><?php echo $product['product_description']; ?></p>
                         </div>
                         <div class="card-footer">
@@ -183,7 +226,10 @@ if (isset($_POST['btnAddToCart'])){
                                             <div class="mb-3">
                                                 <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
                                                 <input type="hidden" name="item_sku" value="<?php echo $product['sku']; ?>">
-                                                <p>Price per Unit: RM <?php echo $product['product_price'];?></p>
+                                                <input type="hidden" name="item_name" value="<?php echo $product['product_name']; ?>">
+                                                <input type="hidden" name="item_imgurl" value="<?php echo $product['product_imgurl']; ?>">
+                                                <input type="hidden" name="item_price" value="<?php echo $product['product_price']; ?>">
+                                                <p>Price per Unit: RM <?php echo number_format($product['product_price'], 2);?></p>
                                                 <p>Stock Balance: <?php echo $product['stockbalance'];?></p>
                                                 <label for="quantity-<?php echo $product['sku']; ?>" class="form-label">Quantity</label>
                                                 <input type="number" class="form-control" name="purchase_qty" id="quantity-<?php echo $product['sku']; ?>" value="1" min="1" max="<?php echo $product['stockbalance'];?>">
@@ -203,3 +249,8 @@ if (isset($_POST['btnAddToCart'])){
             <?php endforeach; ?>
         </div>
     </div>
+    <br>
+</div>
+<?php
+include 'includes\footer.php';
+?>
