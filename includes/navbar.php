@@ -2,7 +2,6 @@
             <ul class="left-side">
                 <li><a href="home.php">Homepage</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="cart.php">Cart</a></li>
                 <li><a href="orderhistory.php">Order History</a></li>
                 <li><a href="submitcartridge.php">Cartridge Submission</a></li>
             </ul>
@@ -19,7 +18,12 @@
                         }
                         ?>
                         
-                    </a></li>
+                    </a>
+                </li>
+                <li><a href="cart.php">
+                        <span class="bi-cart" title="Cart"></span>
+                    </a>
+                </li>
                 <li>
                     <a href="function_logout.php">
                         <span class="bi-power" title="Logout"></span>
