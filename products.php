@@ -57,8 +57,8 @@ if (isset($_POST['btnAddToCart'])){
                 $postCartRef = $database->getReference($updateCart_table)->update($cartData);
 
                 if($postCartRef){
+                    $_SESSION['status'] = "Item Added to Cart Successfully.";
                     header("Location: products.php#product_list");
-                    echo "Item Added to Cart Successfully.";
                     die();
                 }
             }
@@ -90,8 +90,8 @@ if (isset($_POST['btnAddToCart'])){
             $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
             
             if($updateCartRef){
+                $_SESSION['status'] = "Item Added to Cart Successfully.";
                 header("Location: products.php#product_list");
-                echo "Item Added to Cart Successfully.";
                 die();
             }
         }
@@ -191,6 +191,13 @@ if (isset($_POST['btnAddToCart'])){
 ?>
 
 <div class="content">
+    <!--Show Status-->
+    <?php
+        if(isset($_SESSION['status'])){
+            echo "<h5 class='alert alert-success'>".$_SESSION['status']."</h5>";
+            unset($_SESSION['status']);
+        }
+    ?>
     <div class="title">
         <h2>Our Products</h5>
     </div>
@@ -244,6 +251,7 @@ if (isset($_POST['btnAddToCart'])){
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             <?php endforeach; ?>
