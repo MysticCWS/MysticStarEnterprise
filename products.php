@@ -211,6 +211,7 @@ if (isset($_POST['btnAddToCart'])){
                         <div class="card-body">
                             <h4 class="card-title"><?php echo $product['product_name']; ?></h4>
                             <h5>RM <?php echo number_format($product['product_price'], 2); ?></h5>
+                            <p class="card-text">SKU: <?php echo $product['sku']; ?></p>
                             <p class="card-text"><?php echo $product['product_description']; ?></p>
                         </div>
                         <div class="card-footer">
@@ -236,6 +237,7 @@ if (isset($_POST['btnAddToCart'])){
                                                 <input type="hidden" name="item_name" value="<?php echo $product['product_name']; ?>">
                                                 <input type="hidden" name="item_imgurl" value="<?php echo $product['product_imgurl']; ?>">
                                                 <input type="hidden" name="item_price" value="<?php echo $product['product_price']; ?>">
+                                                <p>SKU: <?php echo $product['sku']; ?></p>
                                                 <p>Price per Unit: RM <?php echo number_format($product['product_price'], 2);?></p>
                                                 <p>Stock Balance: <?php echo $product['stockbalance'];?></p>
                                                 <label for="quantity-<?php echo $product['sku']; ?>" class="form-label">Quantity</label>
