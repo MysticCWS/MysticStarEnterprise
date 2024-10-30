@@ -1,10 +1,14 @@
 <?php
 session_start();
 include 'dbcon.php'; // Ensure you have your database connection
+include 'includes\header.php'; 
+echo ' | Admin Dashboard';
+include 'includes\header2.php';
+include 'includes\navbar_admin.php';
 
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['verified_user_id']) || !isset($_SESSION['idTokenString'])) {
-    $_SESSION['status'] = "You must log in first.";
+    $_SESSION['status'] = "Not Allowed.";
     header("Location: login.php"); // Redirect to login page if not logged in
     exit();
 }
@@ -15,15 +19,19 @@ $uid = $_SESSION['verified_user_id'];
 // At this point, the user is logged in and is an admin
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="path/to/your/styles.css"> <!-- Include your CSS -->
-</head>
-<body>
+<div class="content">
+<!--Show Status-->
+    <?php
+        if(isset($_SESSION['status'])){
+            echo "<h5 class='alert alert-success'>".$_SESSION['status']."</h5>";
+            unset($_SESSION['status']);
+        }
+    ?>
+
+    <div class="title">
+        <h2>Admin Dashboard</h5>
+    </div>
+
     <div class="container">
         <h1>Welcome to the Admin Dashboard</h1>
         <p>You are logged in as an admin.</p>
@@ -44,7 +52,10 @@ $uid = $_SESSION['verified_user_id'];
             ?>
         </div>
 
-        <a href="logout.php">Logout</a> <!-- Link to logout -->
+        <a href="function_logout.php">Logout</a> <!-- Link to logout -->
     </div>
-</body>
-</
+</div>
+
+<?php
+include 'includes\footer.php';
+?>
