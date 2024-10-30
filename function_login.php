@@ -27,8 +27,15 @@ if (isset($_POST['btnLogin'])){
                 $_SESSION['idTokenString'] = $idTokenString;
                 
                 $_SESSION['status'] = "Logged in successfully.";
-                header("Location: home.php");
-                die();
+                
+                $claims = $auth->getUser($uid)->customClaims;
+                if ($claims['admin'] == true){
+                    header("Location: admin_dashboard.php");
+                    die();
+                } else {
+                    header("Location: home.php");
+                    die();
+                }
                 
             } catch (InvalidToken $e) {
                 echo 'The token is invalid: '.$e->getMessage();

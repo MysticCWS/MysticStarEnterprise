@@ -12,15 +12,6 @@ if (!isset($_SESSION['verified_user_id']) || !isset($_SESSION['idTokenString']))
 // Get the user ID from the session
 $uid = $_SESSION['verified_user_id'];
 
-// Fetch user data from the Realtime Database to check the role
-$userData = $database->getReference('users/' . $uid)->getValue();
-
-if (!$userData || !isset($userData['role']) || $userData['role'] !== 'admin') {
-    $_SESSION['status'] = "Access Denied. Admin Only.";
-    header("Location: login.php"); // Redirect to login if not an admin
-    exit();
-}
-
 // At this point, the user is logged in and is an admin
 ?>
 
