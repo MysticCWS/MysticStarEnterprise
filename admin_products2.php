@@ -25,7 +25,7 @@ if (isset($_FILES['myfile']['name'])){
     );
 }
 
-if (isset($_POST['btnSaveChanges'])){
+if (isset($_POST['btnUpdateStock'])){
     $sku = $_POST['sku'];
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
@@ -51,18 +51,21 @@ if (isset($_POST['btnSaveChanges'])){
         'product_name' => $product_name,
         'product_price' => $product_price,
         'product_description' => $product_description,
-        'stockbalance' => $stockbalance
+        'stockbalance' => $stockbalance,
+        'product_imgurl' => $product_imgurl
     ];
     
     $updateProduct_table = 'products/'.$sku;
     $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
     
     if($updateProductRef){
-                $_SESSION['status'] = "Saved Changes Successfully.";
-                header("Location: admin_products.php#product_list");
-                die();
-            }
+        $_SESSION['status'] = "Saved Changes Successfully.";
+        header("Location: admin_products.php#product_list");
+        die();
+    }
 }
+
+//Add new product
 
 //Fetch product from database
 $ref_table = 'product';
