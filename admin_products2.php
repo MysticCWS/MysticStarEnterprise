@@ -71,14 +71,99 @@ $products = $database->getReference($ref_table)->getValue();
 ?>
 
 <div class="content">
-    <div class="title">
-        <h2>Add Stock</h5>
-    </div>
-    <div class="title">
-        <h2>Add New Product</h5>
-    </div>
+    <?php foreach ($products as $product): ?>
+    <?php 
+    $productSKU = $product['sku'];
+    $sku = $_GET['sku'];
+    if ($productSKU == $sku): ?>
+        <div class="title">
+            <h2>Update Stock</h5>
+        </div>
     
-    <div class="container mt-5 px-4 py-4 border rounded bg-white" id="addproduct">
-        
-    </div>
+        <div class="container mt-5 px-4 py-4 border rounded bg-white" id="addproduct">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Update Stock Details</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Form for product sku -->
+                <form id="updateStockForm" method="POST" >
+                    <div class="mb-3">
+                        <br>
+                        <label for="name">SKU</label>
+                        <input type="text" class="form-control" id="sku" name="sku" value="<?php echo $sku; ?>" readonly=""><br>
+                        
+                        <div class="" onclick="document.getElementById('file-input').click();">
+                            <img src="<?php echo $product['product_imgurl']; ?>" alt="Upload Product Picture of <?php echo $sku; ?>" id="product-img">
+                            <div class="edit-photo">Edit Photo</div>
+                        </div>
+                        <!-- Hidden file input to upload image --> 
+                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
+                        <br>
+
+                        <label for="product_name">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" name="product_name" value="<?php echo $product['product_name']; ?>" required=""><br>
+
+                        <label for="product_price">Price per Unit</label>
+                        <input type="text" class="form-control" id="product_price" name="product_price" value="<?php echo $product['product_price']; ?>" required=""><br>
+
+                        <label for="stockbalance">Stock Balance</label>
+                        <input type="number" class="form-control" name="stockbalance" id="stockbalance" value="<?php echo $product['stockbalance']; ?>" min="0" max="999" required=""><br>
+
+                        <label for="product_description">Product Description</label>
+                        <input type="text" class="form-control" id="product_description" name="product_description" value="<?php echo $product['product_description']; ?>" required=""><br>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-secondary" name="btnUpdateStock">Update</button>
+                </form>
+            </div>
+        </div>
+    
+    <?php else: ?>
+        <div class="title">
+            <h2>Add Product</h5>
+        </div>
+    
+        <div class="container mt-5 px-4 py-4 border rounded bg-white" id="addproduct">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Form for product sku -->
+                <form id="addProductForm" method="POST" >
+                    <div class="mb-3">
+                        <br>
+                        <label for="name">SKU</label>
+                        <input type="text" class="form-control" id="sku" name="sku" value="<?php echo $sku; ?>" readonly=""><br>
+                        
+                        <div class="" onclick="document.getElementById('file-input').click();">
+                            <img src="" alt="Upload Product Picture of <?php echo $sku; ?>" id="product-img">
+                            <div class="edit-photo">Edit Photo</div>
+                        </div>
+                        <!-- Hidden file input to upload image --> 
+                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
+                        <br>
+
+                        <label for="product_name">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" name="product_name" value="" required=""><br>
+
+                        <label for="product_price">Price per Unit</label>
+                        <input type="text" class="form-control" id="product_price" name="product_price" value="" required=""><br>
+
+                        <label for="stockbalance">Stock Balance</label>
+                        <input type="number" class="form-control" name="stockbalance" id="stockbalance" value="" min="0" max="999" required=""><br>
+
+                        <label for="product_description">Product Description</label>
+                        <input type="text" class="form-control" id="product_description" name="product_description" value="" required=""><br>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-secondary" name="btnAddProduct">Add</button>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    <br>
 </div>
+<?php
+include 'includes\footer.php';
+?>

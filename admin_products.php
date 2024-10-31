@@ -132,71 +132,6 @@ $products = $database->getReference($ref_table)->getValue();
                                 </div>
                             </div>
                         </div>
-                        
-<!--                         Add Product 2 Modal 
-                        <div class="modal fade" id="addProduct2Modal" tabindex="-1" aria-labelledby="addProduct2ModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="addProduct2ModalLabel">Add Product</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                         Form for adding product 
-                                        <?php foreach ($products as $product): ?>
-                                            <?php 
-                                            $productSKU = $product['sku'];
-                                            $sku = $_GET
-                                            if ($productSKU == $sku): ?>
-                                            <form id="addProduct2Form" method="POST">
-                                                <div class="mb-3">
-                                                    <label for="name">SKU</label>
-                                                    <input type="text" class="form-control" id="sku" name="sku" value="">
-                                                </div>
-                                                    <button type="button" class="btn btn-outline-secondary" name="btnAddProductNext" data-bs-toggle="modal" data-bs-target="addProductModal2">Next</button>
-                                            </form>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                                        <form id="addProductForm2"
-                                                <?php foreach ($products as $product): ?>
-                                                <?php 
-                                                $productSKU = $product['sku'];
-                                                
-                                                if ($productSKU == $sku): ?>
-                                                <?php endif; ?>
-                                                <?php endforeach; ?>
-                                                <div class="" onclick="document.getElementById('file-input').click();">
-                                                    <img src="" alt="Product Picture of <?php echo $product['sku']; ?>" id="product-img">
-                                                    <div class="edit-photo">Edit Photo</div>
-                                                </div>
-                                                 Hidden file input to upload image 
-                                                <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
-                                                <br>
-                                                
-                                                <label for="product_name">Product Name</label>
-                                                <input type="text" class="form-control" id="product_name" name="product_name" value="<?php echo $product['product_name']; ?>" required=""><br>
-                                                
-                                                <label for="product_price">Price per Unit</label>
-                                                <input type="text" class="form-control" id="product_price" name="product_price" value="<?php echo $product['product_price']; ?>" required=""><br>
-                                                
-                                                <label for="stockbalance">Stock Balance</label>
-                                                <input type="number" class="form-control" name="stockbalance" id="stockbalance" value="<?php echo $product['stockbalance']; ?>" min="0" max="999" required=""><br>
-                                                
-                                                <label for="product_description">Product Description</label>
-                                                <input type="text" class="form-control" id="product_description" name="product_description" value="<?php echo $product['product_description']; ?>" required=""><br>
-                                            </div>
-                                            
-                                            <button type="submit" class="btn btn-outline-secondary" name="btnSaveChanges">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
 
                         <!-- Edit Product Modal -->
                         <div class="modal fade" id="editProductModal-<?php echo $product['sku']; ?>" tabindex="-1" aria-labelledby="editProductModalLabel-<?php echo $product['sku']; ?>" aria-hidden="true">
@@ -246,3 +181,6 @@ $products = $database->getReference($ref_table)->getValue();
     </div>
     <br>
 </div>
+<?php
+include 'includes\footer.php';
+?>
