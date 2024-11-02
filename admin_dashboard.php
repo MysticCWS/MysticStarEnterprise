@@ -29,7 +29,7 @@ $uid = $_SESSION['verified_user_id'];
     ?>
 
     <div class="title">
-        <h2>Admin Dashboard</h5>
+        <h2>Admin Dashboard</h2>
     </div>
 
     <div class="container">

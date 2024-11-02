@@ -199,7 +199,7 @@ if (isset($_POST['btnAddToCart'])){
         }
     ?>
     <div class="title">
-        <h2>Our Products</h5>
+        <h2>Our Products</h2>
     </div>
     
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="product_list">

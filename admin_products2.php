@@ -163,7 +163,7 @@ $products = $database->getReference($ref_table)->getValue();
         </div>
     <?php else: ?>
         <div class="title">
-            <h2>Add Product</h5>
+            <h2>Add Product</h2>
         </div>
     
         <div class="container mt-5 px-4 py-4 border rounded bg-white" id="addproduct">

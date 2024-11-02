@@ -25,7 +25,7 @@ $carousel_images = $database->getReference($ref_table)->getValue();
     ?>
 
     <div class="title">
-        <h2>New Promotions</h5>
+        <h2>New Promotions</h2>
     </div>
 
     <!-- Carousel -->

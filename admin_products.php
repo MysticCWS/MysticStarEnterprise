@@ -88,7 +88,7 @@ $products = $database->getReference($ref_table)->getValue();
         }
     ?>
     <div class="title">
-        <h2>Manage Products</h5>
+        <h2>Manage Products</h2>
     </div>
     
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="product_list">

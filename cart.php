@@ -89,7 +89,7 @@ if (isset($_POST['btnRemoveCart'])){
     ?>
     
     <div class="title">
-        <h2>Shopping Cart</h5>
+        <h2>Shopping Cart</h2>
     </div>
     
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="shopping_cart">
@@ -211,7 +211,7 @@ if (isset($_POST['btnRemoveCart'])){
         </table>
         <div class="text-end">
             <a href="products.php#product_list" class="btn btn-outline-secondary">Continue Shopping</a>
-            <a href="checkout.php" class="btn btn-outline-secondary" >Checkout</a>
+            <a href="function_checkstockbalance.php" class="btn btn-outline-secondary" >Checkout</a>
         </div>
     </div>
 </div>
