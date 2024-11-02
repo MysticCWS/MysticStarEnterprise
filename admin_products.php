@@ -16,7 +16,7 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if (isset($_FILES['myfile']['name'])){
+if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
     $defaultBucket->upload(
         file_get_contents($_FILES['myfile']['tmp_name']),
         [
@@ -37,13 +37,8 @@ if (isset($_POST['btnSaveChanges'])){
         $product_imrurlsuffix = "?alt=media";
         $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
         
-        $defaultBucket->upload(
-            file_get_contents($_FILES['myfile']['tmp_name']),
-            [
-            'name' =>"products/".$sku.".png"
-            ]
-        );
     } else {
+        
         $product_imgurl = $_POST['product_imgurl'];
     }
     
@@ -55,11 +50,24 @@ if (isset($_POST['btnSaveChanges'])){
         'product_imgurl' => $product_imgurl
     ];
     
-    $updateProduct_table = 'products/'.$sku;
+    $updateProduct_table = 'product/'.$sku;
     $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
     
     if($updateProductRef){
         $_SESSION['status'] = "Saved Changes Successfully.";
+        header("Location: admin_products.php#product_list");
+        die();
+    }
+}
+
+if (isset($_POST['btnDeleteProduct'])){
+    $sku = $_POST['sku'];
+    
+    $deleteProduct_table = 'product/'.$sku;
+    $deleteProductRef = $database->getReference($deleteProduct_table)->remove();
+    
+    if($deleteProductRef){
+        $_SESSION['status'] = "Product removed successfully.";
         header("Location: admin_products.php#product_list");
         die();
     }
@@ -101,6 +109,7 @@ $products = $database->getReference($ref_table)->getValue();
                             <h4 class="card-title"><?php echo $product['product_name']; ?></h4>
                             <h5>RM <?php echo number_format($product['product_price'], 2); ?></h5>
                             <p class="card-text">SKU: <?php echo $product['sku']; ?></p>
+                            <p class="card-text">Stock Balance: <?php echo $product['stockbalance']; ?></p>
                             <p class="card-text"><?php echo $product['product_description']; ?></p>
                         </div>
                         <div class="card-footer">
@@ -122,10 +131,10 @@ $products = $database->getReference($ref_table)->getValue();
                                     </div>
                                     <div class="modal-body">
                                         <!-- Form for product sku -->
-                                        <form id="addProductForm" method="GET" action="admin_products2.php">
+                                        <form id="addProductForm" method="POST" action="admin_products2.php">
                                             <div class="mb-3">
                                                 <label for="name">SKU</label>
-                                                <input type="text" class="form-control" id="sku" name="sku" value="">
+                                                <input type="text" class="form-control" id="sku" name="sku" value="" required="">
                                             </div>
                                                 <button type="submit" class="btn btn-outline-secondary" name="btnAddProductNext">Next</button>
                                         </form>
@@ -144,11 +153,11 @@ $products = $database->getReference($ref_table)->getValue();
                                     </div>
                                     <div class="modal-body">
                                         <!-- Form for editing product -->
-                                        <form id="editProductForm" method="POST" >
+                                        <form id="editProductForm" method="POST" enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <input type="hidden" name="sku" value="<?php echo $product['sku']; ?>">
                                                 <div class="" onclick="document.getElementById('file-input').click();">
-                                                    <img src="<?php echo $product['product_imgurl'];?>" alt="Product Picture of <?php echo $product['sku']; ?>" id="product-img">
+                                                    <img src="<?php echo $product['product_imgurl'];?>" alt="Product Picture of <?php echo $product['sku']; ?>" id="product-img" width="300px" height="300px">
                                                     <div class="edit-photo">Edit Photo</div>
                                                 </div>
                                                 <!-- Hidden file input to upload image -->
@@ -169,6 +178,29 @@ $products = $database->getReference($ref_table)->getValue();
                                             </div>
                                             
                                             <button type="submit" class="btn btn-outline-secondary" name="btnSaveChanges">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Delete Product Modal -->
+                        <div class="modal fade" id="deleteProductModal-<?php echo $product['sku']; ?>" tabindex="-1" aria-labelledby="deleteProductModalLabel-<?php echo $product['sku']; ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteProductModalLabel-<?php echo $product['sku']; ?>">Confirm to Delete Product: <?php echo $product['product_name']; ?>?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Form for deleting product -->
+                                        <form id="deleteProductForm" method="POST" >
+                                            <div class="mb-3">
+                                                <input type="hidden" name="sku" value="<?php echo $product['sku']; ?>">
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-outline-danger" name="btnDeleteProduct">Delete</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                         </form>
                                     </div>
                                 </div>

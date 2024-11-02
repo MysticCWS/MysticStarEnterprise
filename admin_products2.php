@@ -16,7 +16,7 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if (isset($_FILES['myfile']['name'])){
+if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
     $defaultBucket->upload(
         file_get_contents($_FILES['myfile']['tmp_name']),
         [
@@ -26,6 +26,41 @@ if (isset($_FILES['myfile']['name'])){
 }
 
 if (isset($_POST['btnUpdateStock'])){
+    $sku = $_POST['sku'];
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    $product_description = $_POST['product_description'];
+    $stockbalance = $_POST['stockbalance'];
+    
+    if (isset($_FILES['myfile']['name'])){
+        $product_imgurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/products%2F";
+        $product_imrurlsuffix = "?alt=media";
+        $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
+        
+    } else {
+        $product_imgurl = $_POST['product_imgurl'];
+    }
+    
+    $productProperties = [
+        'product_name' => $product_name,
+        'product_price' => $product_price,
+        'product_description' => $product_description,
+        'stockbalance' => $stockbalance,
+        'product_imgurl' => $product_imgurl
+    ];
+    
+    $updateProduct_table = 'product/'.$sku;
+    $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
+    
+    if($updateProductRef){
+        $_SESSION['status'] = "Saved Changes Successfully.";
+        header("Location: admin_products.php#product_list");
+        die();
+    }
+}
+
+//Add new product
+if (isset($_POST['btnAddProduct'])){
     $sku = $_POST['sku'];
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
@@ -48,6 +83,7 @@ if (isset($_POST['btnUpdateStock'])){
     }
     
     $productProperties = [
+        'sku' => $sku,
         'product_name' => $product_name,
         'product_price' => $product_price,
         'product_description' => $product_description,
@@ -55,7 +91,7 @@ if (isset($_POST['btnUpdateStock'])){
         'product_imgurl' => $product_imgurl
     ];
     
-    $updateProduct_table = 'products/'.$sku;
+    $updateProduct_table = 'product/'.$sku;
     $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
     
     if($updateProductRef){
@@ -65,8 +101,6 @@ if (isset($_POST['btnUpdateStock'])){
     }
 }
 
-//Add new product
-
 //Fetch product from database
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
@@ -74,11 +108,18 @@ $products = $database->getReference($ref_table)->getValue();
 ?>
 
 <div class="content">
-    <?php foreach ($products as $product): ?>
+    <?php $foundSKU = false;
+    foreach ($products as $product): ?>
     <?php 
     $productSKU = $product['sku'];
-    $sku = $_GET['sku'];
-    if ($productSKU == $sku): ?>
+    $sku = $_POST['sku'];
+    if ($productSKU == $sku || $productSKU === $sku): 
+        $foundSKU = true;
+        break;?>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    
+    <?php if($foundSKU): ?>
         <div class="title">
             <h2>Update Stock</h5>
         </div>
@@ -89,7 +130,7 @@ $products = $database->getReference($ref_table)->getValue();
             </div>
             <div class="modal-body">
                 <!-- Form for product sku -->
-                <form id="updateStockForm" method="POST" >
+                <form id="updateStockForm" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <br>
                         <label for="name">SKU</label>
@@ -120,7 +161,6 @@ $products = $database->getReference($ref_table)->getValue();
                 </form>
             </div>
         </div>
-    
     <?php else: ?>
         <div class="title">
             <h2>Add Product</h5>
@@ -132,7 +172,7 @@ $products = $database->getReference($ref_table)->getValue();
             </div>
             <div class="modal-body">
                 <!-- Form for product sku -->
-                <form id="addProductForm" method="POST" >
+                <form id="addProductForm" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <br>
                         <label for="name">SKU</label>
@@ -143,7 +183,7 @@ $products = $database->getReference($ref_table)->getValue();
                             <div class="edit-photo">Edit Photo</div>
                         </div>
                         <!-- Hidden file input to upload image --> 
-                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
+                        <input type="file" class="form-control" id="file-input" accept="image/png, image/jpeg" name="myfile" onchange="previewImage(event)" required="">
                         <br>
 
                         <label for="product_name">Product Name</label>
@@ -164,7 +204,6 @@ $products = $database->getReference($ref_table)->getValue();
             </div>
         </div>
     <?php endif; ?>
-    <?php endforeach; ?>
     <br>
 </div>
 <?php
