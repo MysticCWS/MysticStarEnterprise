@@ -7,7 +7,7 @@ include 'includes\header2.php';
 ?>
 
 <div class="col-md-4 mx-auto px-4 py-5 border rounded bg-white">
-<!--Show Status-->
+    <!-- Show Status -->
     <?php
         if(isset($_SESSION['status'])){
             echo "<h5 class='alert alert-success'>".$_SESSION['status']."</h5>";
@@ -15,7 +15,7 @@ include 'includes\header2.php';
         }
     ?>
     
-    <form action="function_signup.php" id="signupForm" class="was-validated" method="POST">
+    <form action="function_signup.php" id="signupForm" method="POST" onsubmit="return validateForm()">
         <div class="row g-2 mb-3 mx-2">
             <div class="col-md">
                 <h3>Sign Up</h3>
@@ -25,39 +25,44 @@ include 'includes\header2.php';
             <div class="col-md">
                 <div class="form-floating">
                     <input id="loginEmail" class="form-control" type="text" name="user_email" placeholder="Email" value="" required>
-                    <label for="name">Email</label>
+                    <label for="loginEmail">Email</label>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
             </div>
         </div>
         <div class="row g-2 my-3 mx-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input id="loginPassword" class="form-control" type="password" name="user_password" placeholder="Password" value="" required>
-                    <label for="name">Password</label>
+                    <input id="loginPassword" class="form-control" type="password" name="user_password" placeholder="Password" required>
+                    <label for="loginPassword">Password</label>
+                    <div class="invalid-feedback">Password must be at least 8 characters, including one uppercase and one lowercase letter.</div>
                 </div>
             </div>
         </div>
         <div class="row g-2 my-3 mx-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input id="loginConfirmPassword" class="form-control" type="password" name="user_password" placeholder="Password" value="" required>
-                    <label for="name">Confirm Password</label>
+                    <input id="loginConfirmPassword" class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" required>
+                    <label for="loginConfirmPassword">Confirm Password</label>
+                    <div class="invalid-feedback">Passwords do not match.</div>
                 </div>
             </div>
         </div>
         <div class="row g-2 my-3 mx-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input id="displayName" class="form-control" type="text" name="user_name" placeholder="Display Name" value="" required>
-                    <label for="name">Display Name</label>
+                    <input id="displayName" class="form-control" type="text" name="user_name" placeholder="Display Name" required>
+                    <label for="displayName">Display Name</label>
+                    <div class="invalid-feedback">Please enter your display name.</div>
                 </div>
             </div>
         </div>
         <div class="row g-2 my-3 mx-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input id="contact" class="form-control" type="text" name="user_contact" placeholder="Contact" value="" required>
-                    <label for="name">Contact</label>
+                    <input id="contact" class="form-control" type="text" name="user_contact" placeholder="Contact" required>
+                    <label for="contact">Contact</label>
+                    <div class="invalid-feedback">Phone number must start with 0, be exactly 11 digits, and contain only numbers.</div>
                 </div>
             </div>
         </div>
@@ -73,6 +78,76 @@ include 'includes\header2.php';
         </div>
     </form>
 </div>
+
+<script>
+function validateForm() {
+    let isValid = true;
+
+    // Email validation
+    const email = document.getElementById('loginEmail');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    email.classList.remove('is-valid', 'is-invalid'); // Reset classes first
+    if (!emailPattern.test(email.value)) {
+        email.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        email.classList.add('is-valid');
+    }
+
+    // Password validation
+    const password = document.getElementById('loginPassword');
+    const confirmPassword = document.getElementById('loginConfirmPassword');
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    
+    password.classList.remove('is-valid', 'is-invalid'); // Reset classes first
+    confirmPassword.classList.remove('is-valid', 'is-invalid'); // Reset classes first
+
+    if (!passwordPattern.test(password.value)) {
+        password.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        password.classList.add('is-valid');
+    }
+
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        confirmPassword.classList.add('is-valid');
+    }
+
+    // Phone number validation
+    const contact = document.getElementById('contact');
+    const phonePattern = /^0\d{10}$/;
+    contact.classList.remove('is-valid', 'is-invalid'); // Reset classes first
+    
+    if (!phonePattern.test(contact.value)) {
+        contact.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        contact.classList.add('is-valid');
+    }
+
+    // Name validation
+    const displayName = document.getElementById('displayName');
+    const namePattern = /^[A-Za-z\s]{2,}$/; // At least 2 characters, letters only
+    displayName.classList.remove('is-valid', 'is-invalid'); // Reset classes first
+
+    if (!namePattern.test(displayName.value)) {
+        displayName.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        displayName.classList.add('is-valid');
+    }
+
+    // Add 'was-validated' class to show validation feedback after submit attempt
+    if (!isValid) {
+        document.getElementById('signupForm').classList.add('was-validated');
+    }
+
+    return isValid;
+}
+</script>
 
 <?php
 include 'includes\footer.php';
