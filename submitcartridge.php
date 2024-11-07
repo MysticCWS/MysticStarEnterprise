@@ -20,26 +20,20 @@ try {
     exit();
 }
 
-
-
-// Fetch models from the database based on selected brand if submitted
+// Fetch models based on selected brand if submitted
 $selectedBrand = $_POST['brand'] ?? '';
 $models = [];
 $errorMessage = ''; // Initialize error message variable
 if ($selectedBrand) {
-    // Fetch models based on selected brand from Firebase
     $models = $database->getReference("printerlist/$selectedBrand")->getValue();
 }
 
-// Initialize the status variable
 $status = ''; // Ensure $status is initialized to avoid undefined variable warning
 
 // Check for status parameter
 if (isset($_GET['status'])) {
     $status = $_GET['status'];
 }
-
-
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -83,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
 
+                <!-- Model Selection -->
                 <div class="form-group">
                     <label for="model">Model:</label>
                     <select id="model" name="model" class="input-field" required>
@@ -109,13 +104,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Bank Details Section (Initially Hidden) -->
                 <div class="form-group" id="bankDetails" style="display: none;">
                     <label for="bankAccount">Bank Account Number:</label>
-                    <input type="text" id="bankAccount" name="bank_account" class="input-field">
+                    <input type="text" id="bankAccount" name="bank_account" class="input-field" maxlength="17" 
+                           pattern="^[0-9]{1,17}$" title="Bank account number can only contain up to 17 digits" 
+                           placeholder="e.g., 12345678901234567">
+
+                    <!-- Bank Selection Dropdown -->
+                    <label for="bankSelect">Select Bank:</label>
+                    <select id="bankSelect" name="bank" class="input-field">
+                        <option value="">--Select Bank--</option>
+                        <option value="public_bank">Public Bank</option>
+                        <option value="maybank">Maybank</option>
+                        <option value="cimb_bank">CIMB Bank</option>
+                        <option value="uob_bank">UOB Bank</option>
+                    </select>
                 </div>
 
                 <!-- E-Wallet Details Section (Initially Hidden) -->
                 <div class="form-group" id="ewalletDetails" style="display: none;">
                     <label for="phone">Phone Number for E-wallet:</label>
-                    <input type="tel" id="phone" name="phone" class="input-field">
+                    <input type="tel" id="phone" name="phone" class="input-field" maxlength="10" 
+                           pattern="^0[0-9]{9}$" title="Phone number must start with 0 and have 10 digits" 
+                           placeholder="e.g., 0123456789">
                 </div>
 
                 <!-- Cartridge Image Upload -->
@@ -184,49 +193,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
         });
     </script>
-    
-    <!-- Modal for Terms and Conditions -->
-<div id="termsModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Terms and Conditions</h2>
-        <p>Accepted Models are entitled to claim RM5/unit (unless different amount stated) if criteria are met as below:</p>
-        <p>1) Only Original cartridges are accepted, no refilled / counterfeit shall be accepted.</p>
-        <p>2) Cartridge printhead and label stickers should be in good condition and label text should be readable.</p>
-        <p>3) Please take a photo of the cartridges and submit it in the form.</p>
-        <p>4) Kindly pack the cartridges in a plastic bag / if quantity is more than 5 units.</p>
-        <p>Submitted cartridges will be inspected, and the amount will be credited accordingly to your preferred payment after processing.</p>
-        <p>By submitting this form, you agree to the terms outlined above.</p>
-    </div>
-</div>
 
+    <!-- JavaScript for Additional Validation -->
     <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const phone = document.getElementById('phone');
+            if (phone && phone.value && !/^0[0-9]{9}$/.test(phone.value)) {
+                alert('Phone number must start with 0 and contain exactly 10 digits.');
+                event.preventDefault();
+                return;
+            }
 
-          var modal = document.getElementById("termsModal");
-
-
-          var termsLink = document.getElementById("termsLink");
-
-
-          var span = document.getElementsByClassName("close")[0];
-
-
-               termsLink.onclick = function() {
-                  modal.style.display = "block";
-              }
-
-
-s             pan.onclick = function() {
-                  modal.style.display = "none";
-              }
-
-
-              window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-                  }
-              }
-     </script>
+            const bankAccount = document.getElementById('bankAccount');
+            if (bankAccount && bankAccount.value && !/^[0-9]{1,17}$/.test(bankAccount.value)) {
+                alert('Bank account number must only contain digits and be up to 17 characters.');
+                event.preventDefault();
+                return;
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -189,7 +189,6 @@ button.btnSave:hover {
     text-align: center;
 }
 
-/* Custom CSS to prioritize invalid fields over valid */
 input.is-valid {
     border-color: #28a745 !important;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 16 16'%3E%3Cpath fill='%2328a745' d='M5.5 9.8l4.8-4.8.7.7-5.5 5.5-3.5-3.5.7-.7 2.8 2.8z'/%3E%3C/svg%3E") !important;
@@ -212,5 +211,73 @@ input.is-invalid {
     display: block;
 }
 
+/* Styling for the table and expandable details */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
+/* Styling for details and summary tags */
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+details[open] summary::after {
+    content: "▲";
+    float: right;
+}
+details summary::after {
+    content: "▼";
+    float: right;
+}
+
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 

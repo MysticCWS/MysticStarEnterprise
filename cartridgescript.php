@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $model = $_POST['model'];
     $quantity = $_POST['quantity'];
     $paymentMethod = $_POST['payment_method'];
+    $bankType = $_POST['bank'] ?? ''; // Capture selected bank when payment method is 'bank_account'
+    $status = 'pending'; // Set initial status to "pending"
 
     // Initialize variables
     $imageURL = '';
@@ -57,6 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Prepare payment details
     if ($paymentMethod === 'bank_account') {
         $payment_details = $_POST['bank_account'] ?? '';
+        // Ensure bankType is filled if bank account is selected
+        if (empty($bankType)) {
+            echo "Error: Please select a bank.";
+            exit();
+        }
     } elseif ($paymentMethod === 'ewallet') {
         $payment_details = $_POST['phone'] ?? '';
     }
@@ -75,7 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'quantity' => $quantity,
         'payment_method' => $paymentMethod,
         'payment_details' => $payment_details,
+        'bank_type' => $bankType, // Include bank type in data
         'image_url' => $imageURL,
+        'status' => $status, // Store initial status as "pending"
     ];
 
     $database->getReference('cartridge_submissions/' . $uid)->push($data);
