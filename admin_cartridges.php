@@ -86,8 +86,8 @@ if ($completedSubmissions) {
 ?>
 
 <!-- Modal Structure -->
-<div id="submissionModal" class="modal" style="display:none;">
-    <div class="modal-content">
+<div id="submissionModal" class="modal modalac" style="display:none;">
+    <div class="modal-content modal-contentac">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Submission Details</h2>
         <p id="modalContent">Loading...</p>
