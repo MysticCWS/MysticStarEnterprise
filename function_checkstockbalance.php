@@ -30,10 +30,10 @@ foreach ($products as $product){
     
     foreach ($cartItems as $cartItem){
         $cartUID = $cartItem['uid'];
-        if ($uid == $cartUID){
-            $cartQty = $cartItem['purchase_qty'];
-            $cartSKU = $cartItem['sku'];
-            
+        $cartQty = $cartItem['purchase_qty'];
+        $cartSKU = $cartItem['item_sku'];
+        
+        if ($cartUID == $uid){
             if ($cartSKU == $productSKU){
                 if ($cartQty > $productStockBalance){
                     $_SESSION['status'] = "Some of your items purchase quantity exceeds the stock balance, please double check and try again.";
