@@ -79,6 +79,11 @@ $deliveryDatas = $database->getReference($delivery_table)->getValue($uid);
         <div class="container">
             <form id="orderForm" class="was-validated" method="POST" >
                 <input type="text" class="form-control" id="uid" name="uid" value="<?php echo $deliveryData['uid']; ?>" hidden="">
+                
+            </form>
         </div>
     </div>
 </div>
+<br>
+<?php
+include 'includes\footer.php';

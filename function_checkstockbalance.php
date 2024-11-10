@@ -32,10 +32,14 @@ foreach ($products as $product){
         $cartUID = $cartItem['uid'];
         if ($uid == $cartUID){
             $cartQty = $cartItem['purchase_qty'];
-            if ($cartQty > $productStockBalance){
-                $_SESSION['status'] = "Some of your items purchase quantity exceeds the stock balance, please double check and try again.";
-                header("Location: cart.php");
-                die();
+            $cartSKU = $cartItem['sku'];
+            
+            if ($cartSKU == $productSKU){
+                if ($cartQty > $productStockBalance){
+                    $_SESSION['status'] = "Some of your items purchase quantity exceeds the stock balance, please double check and try again.";
+                    header("Location: cart.php");
+                    die();
+                }
             }
         }
     }
