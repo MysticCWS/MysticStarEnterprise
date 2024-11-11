@@ -20,9 +20,10 @@ if(isset($_SESSION['verified_user_id'])){
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
 
-//Fetch cart items from database for this user
+//Fetch cart items from database for all and this user
 $cart_table = 'cart';
 $cartItems = $database->getReference($cart_table)->getValue($uid);
+$cartUIDItems = $database->getReference($cart_table)->orderByChild('uid')->equalTo($uid)->getValue();
 
 //Fetch user delivery address from database
 $delivery_table = 'delivery';
@@ -39,45 +40,36 @@ if (isset($_POST['btnPayment'])){
     $state = $_POST['state'];
     
     $txnID = $_POST['txnID'];
-    $num_of_items = $_POST['num_of_items'];
     
-    $orderData = [
-        'uid' => $uid,
-        'attn' => $attn,
-        'address1' => $address1,
-        'address2' => $address2,
-        'postcode' => $postcode,
-        'state' => $state,
-        'txnID' => $txnID,
-    ];
-    
-    $item_pointer = 1;
-    
-    while ($item_pointer <= $num_of_items) {
-        //Add dynamic data into array
-        $orderData['item_sku-' . $item_pointer] = $_POST['item-sku' . $item_pointer];
-        $orderData['purchase_qty-' . $item_pointer] = $_POST['purchase_qty' . $item_pointer];
-        
-        $item_pointer++;
-    }
-    
-    $order_table = 'order';
-    $postOrderRef = $database->getReference($order_table)->push($orderData)->getKey();
-    $orderUpdate = [
-        'orderID' => $postOrderRef
-    ];
-    
-    $updateOrder_table = 'order/'.$postOrderRef;
-    $updateOrderRef = $database->getReference($updateOrder_table)->update($orderUpdate);
+    foreach ($cartUIDItems as $cartUIDItem){
+        $cartUIDSKU = $cartUIDItem['item_sku'];
+        $cartUIDpqty = $cartUIDItem['purchase_qty']; 
+        $orderData = [
+            'uid' => $uid,
+            'attn' => $attn,
+            'address1' => $address1,
+            'address2' => $address2,
+            'postcode' => $postcode,
+            'state' => $state,
+            'txnID' => $txnID,
+            'item_sku' => $cartUIDSKU,
+            'purchase_qty' => $cartUIDpqty,
+            'status' => 'Pending'
+        ];
 
-    while ($item_pointer <= $num_of_items) {
-        //Add dynamic data into array
-        $orderUpdate['item_sku-'.$item_pointer] = $_POST['item_sku-'.$item_pointer];
-        $updateOrderRef = $database->getReference($updateOrder_table)->update($orderUpdate);
-        $orderUpdate['purchase_qty-'.$item_pointer] = $_POST['purchase_qty-'.$item_pointer];
+        $order_table = 'order';
+        $postOrderRef = $database->getReference($order_table)->push($orderData)->getKey();
+        $orderUpdate = [
+            'orderID' => $postOrderRef
+        ];
+
+        $updateOrder_table = 'order/'.$postOrderRef;
         $updateOrderRef = $database->getReference($updateOrder_table)->update($orderUpdate);
         
-        $item_pointer++;
+        $cart_id = $cartUIDItem['cart_id'];
+    
+        $deleteCart_table = 'cart/'.$cart_id;
+        $deleteCartRef = $database->getReference($deleteCart_table)->remove();
     }
     
     if($updateOrderRef){
@@ -152,21 +144,6 @@ if (isset($_POST['btnPayment'])){
                 
                 <label for="txnID">Transaction ID: </label>
                 <input type="text" class="form-control" id="txnID" name="txnID" value="" required="">
-                
-                <?php $num_items = 1;
-                foreach ($cartItems as $cartItem): ?>
-                <?php 
-                $cartUID = $cartItem['uid'];
-                $cartSKU = $cartItem['item_sku'];
-                $cartQty = $cartItem['purchase_qty'];
-                
-                if ($cartUID == $uid): ?>
-                <input type="text" class="form-control" id="item_sku-<?php echo $num_items; ?>" name="item_sku-<?php echo $num_items; ?>" value="<?php echo $cartSKU; ?>" hidden="">
-                <input type="text" class="form-control" id="purchase_qty-<?php echo $num_items; ?>" name="purchase_qty-<?php echo $num_items; ?>" value="<?php echo $cartQty; ?>" hidden="">
-                <input type="text" class="form-control" id="num_of_items" name="num_of_items" value="<?php echo $num_items; ?>" hidden="">
-                <?php $num_items ++;
-                endif; 
-                endforeach; ?>
                 
                 <br>
                 <a href="checkout.php" class="btn btn-outline-secondary">Back to Checkout</a>

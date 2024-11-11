@@ -93,6 +93,12 @@ if (isset($_POST['btnRemoveCart'])){
     </div>
     
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="shopping_cart">
+        <?php if (empty($cartItems)): ?>
+            <p>Your cart is empty.</p>
+            <div class="text-end">
+                <a href="products.php#product_list" class="btn btn-outline-secondary">Continue Shopping</a>
+            </div>
+        <?php else: ?>
         <table class="table">
             <thead>
                 <tr style="text-align: center">
@@ -213,6 +219,7 @@ if (isset($_POST['btnRemoveCart'])){
             <a href="products.php#product_list" class="btn btn-outline-secondary">Continue Shopping</a>
             <a href="function_checkstockbalance.php" class="btn btn-outline-secondary" >Checkout</a>
         </div>
+        <?php endif; ?>
     </div>
 </div>
 <?php
