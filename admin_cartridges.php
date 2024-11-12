@@ -2,6 +2,7 @@
 session_start();
 include 'dbcon.php';
 include 'includes/header.php'; 
+echo ' | Manage Cartridge Submissions';
 include 'includes/header2.php';
 include 'includes/navbar_admin.php';
 
@@ -99,6 +100,10 @@ if ($completedSubmissions) {
         <button id="markCompleteButton" disabled>Mark as Complete</button>
     </div>
 </div>
+<br>
+<?php
+include 'includes\footer.php';
+?>
 
 <script>
 function openModal(userID, submissionID) {

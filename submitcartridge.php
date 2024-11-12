@@ -2,6 +2,7 @@
 session_start();
 include 'dbcon.php';
 include 'includes/header.php'; 
+echo ' | Cartridge Recycling Program';
 include 'includes/header2.php';
 include 'includes/navbar.php'; 
 
@@ -54,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartridge Recycling Program</title>
     <link rel="stylesheet" href="cartridge.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="content">
@@ -136,7 +139,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Agree to Terms Checkbox -->
                 <div class="form-group">
                     <input type="checkbox" id="termsCheckbox" required>
-                    <label for="termsCheckbox">I agree to the <a href="#" id="termsLink">Terms and Conditions</a>.</label>
+                    <label for="termsCheckbox">I agree to the <a href="#termsLink" id="termsLink" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>.</label>
+                </div>
+                
+                <!-- Terms Modal -->
+                <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="termsModalLabel">Terms and Condition</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Submit Button -->
@@ -212,6 +233,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
-
+    <br>
 </body>
 </html>
+<?php
+include 'includes\footer.php';
+?>

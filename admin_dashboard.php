@@ -32,30 +32,14 @@ $uid = $_SESSION['verified_user_id'];
         <h2>Admin Dashboard</h2>
     </div>
 
-    <div class="container">
-        <h1>Welcome to the Admin Dashboard</h1>
-        <p>You are logged in as an admin.</p>
-
-        <h2>User Management</h2>
-        <!-- Add your user management features here -->
-
-        <h2>Other Admin Features</h2>
-        <!-- Add other features specific to admin here -->
-
-        <div class="status-message">
-            <?php
-            // Display any status messages
-            if (isset($_SESSION['status'])) {
-                echo "<p class='alert alert-info'>" . $_SESSION['status'] . "</p>";
-                unset($_SESSION['status']); // Clear status message
-            }
-            ?>
-        </div>
-
-        <a href="function_logout.php">Logout</a> <!-- Link to logout -->
+    <div class="container mt-5 px-4 py-4 border rounded bg-white c-wrapper" id="admin_dashboard">
+        <h5>Welcome to the admin page. You may navigate around to manage products, manage orders, and manage cartridge submissions here.</h5><br>
+        <a href="admin_products.php" class="btn btn-outline-secondary btn-sm"><h3>Manage Products</h3></a><br><br>
+        <a href="admin_orders.php" class="btn btn-outline-secondary btn-sm"><h3>Manage Orders</h3></a><br><br>
+        <a href="admin_cartridges.php" class="btn btn-outline-secondary btn-sm"><h3>Manage Cartridge Submissions</h3></a><br>
     </div>
 </div>
-
+<br>
 <?php
 include 'includes\footer.php';
 ?>

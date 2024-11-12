@@ -2,7 +2,7 @@
 session_start();
 include 'dbcon.php';
 include 'includes\header.php'; 
-echo ' | Checkout';
+echo ' | Payment';
 include 'includes\header2.php';
 include 'includes\navbar.php';
 
