@@ -45,6 +45,12 @@ if (isset($_POST['btnUpdateStatus'])){
     
     $updateStatus_table = 'order/'.$orderID;
     $updateStatusRef = $database->getReference($updateStatus_table)->update($updateStatus);
+    
+    if($updateStatusRef){
+            $_SESSION['status'] = "Order Status Updated Successfully.";
+            header("Location: admin_orders.php");
+            die();
+        }
 }
 ?>
 <div class="content">
@@ -121,6 +127,21 @@ if (isset($_POST['btnUpdateStatus'])){
                         <?php endif;?>
                         <?php endforeach; ?>
                     </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td>Deliver to: </td>
+                        <td colspan="8"><?php echo $orderItem['attn']; ?></td>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td></td>
+                        <td colspan="8">
+                            <?php echo $orderItem['address1']; ?><br>
+                            <?php echo $orderItem['address2']; ?><br>
+                            <?php echo $orderItem['postcode']; ?>, <?php echo $orderItem['state']; ?><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"></td>
+                    </tr>
                 <?php endif; ?>
                 <?php endforeach; ?>
                     
@@ -162,6 +183,21 @@ if (isset($_POST['btnUpdateStatus'])){
                         </td>
                         <?php endif;?>
                         <?php endforeach; ?>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td>Deliver to: </td>
+                        <td colspan="8"><?php echo $orderItem['attn']; ?></td>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td></td>
+                        <td colspan="8">
+                            <?php echo $orderItem['address1']; ?><br>
+                            <?php echo $orderItem['address2']; ?><br>
+                            <?php echo $orderItem['postcode']; ?>, <?php echo $orderItem['state']; ?><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"></td>
                     </tr>
                 <?php endif; ?>
                 <?php endforeach; ?>    
@@ -205,6 +241,21 @@ if (isset($_POST['btnUpdateStatus'])){
                         <?php endif;?>
                         <?php endforeach; ?>
                     </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td>Deliver to: </td>
+                        <td colspan="8"><?php echo $orderItem['attn']; ?></td>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td></td>
+                        <td colspan="8">
+                            <?php echo $orderItem['address1']; ?><br>
+                            <?php echo $orderItem['address2']; ?><br>
+                            <?php echo $orderItem['postcode']; ?>, <?php echo $orderItem['state']; ?><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"></td>
+                    </tr>
                 <?php endif; ?>
                 <?php endforeach; ?>
                     
@@ -246,6 +297,21 @@ if (isset($_POST['btnUpdateStatus'])){
                         </td>
                         <?php endif;?>
                         <?php endforeach; ?>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td>Deliver to: </td>
+                        <td colspan="8"><?php echo $orderItem['attn']; ?></td>
+                    </tr>
+                    <tr style="vertical-align: middle; text-align: left;">
+                        <td></td>
+                        <td colspan="8">
+                            <?php echo $orderItem['address1']; ?><br>
+                            <?php echo $orderItem['address2']; ?><br>
+                            <?php echo $orderItem['postcode']; ?>, <?php echo $orderItem['state']; ?><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9"></td>
                     </tr>
                 <?php endif; ?>
                 <?php endforeach; ?>
