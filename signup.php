@@ -61,7 +61,7 @@ include 'includes\header2.php';
             <div class="col-md">
                 <div class="form-floating">
                     <input id="contact" class="form-control" type="text" name="user_contact" placeholder="Contact" required>
-                    <label for="contact">Contact</label>
+                    <label for="contact">Contact (01XXXXXXXX)</label>
                     <div class="invalid-feedback">Phone number must start with 0, be exactly 11 digits, and contain only numbers.</div>
                 </div>
             </div>
