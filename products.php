@@ -20,9 +20,10 @@ if(isset($_SESSION['verified_user_id'])){
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
 
-//Fetch cart items from database for this user
+//Fetch cart items from database for all and this user
 $cart_table = 'cart';
 $cartItems = $database->getReference($cart_table)->getValue($uid);
+$cartUIDItems = $database->getReference($cart_table)->orderByChild('uid')->equalTo($uid)->getValue();
 
 //Add items to cart
 if (isset($_POST['btnAddToCart'])){
@@ -35,66 +36,99 @@ if (isset($_POST['btnAddToCart'])){
     $purchase_remark = $_POST['purchase_remark'];
     $cart_key = '';
     
-    foreach ($cartItems as $cartItem){
-        $cartItemSKU = $cartItem['item_sku'];
-        $cartUserID = $cartItem['uid'];
-        if($item_sku === $cartItemSKU){
-            if ($user_id === $cartUserID){
-                $newPurchase_qty = $purchase_qty + $cartItem['purchase_qty'];
+    if (empty($cartUIDItems)){
+        $cartData = [
+            'uid'=>$user_id,
+            'item_sku'=>$item_sku,
+            'item_name'=>$item_name,
+            'item_imgurl'=>$item_imgurl,
+            'item_price'=>$item_price,
+            'purchase_qty'=>$purchase_qty,
+            'purchase_remark'=>$purchase_remark,
+            'cart_key'=>''
+        ];
+        $postCartRef = $database->getReference($cart_table)->push($cartData)->getKey();
+        $cartUpdate = [
+            'uid'=>$user_id,
+            'item_sku'=>$item_sku,
+            'item_name'=>$item_name,
+            'item_imgurl'=>$item_imgurl,
+            'item_price'=>$item_price,
+            'purchase_qty'=>$purchase_qty,
+            'purchase_remark'=>$purchase_remark,
+            'cart_key'=>$postCartRef
+        ];
+
+        $updateCart_table = 'cart/'.$postCartRef;
+        $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
+
+        if($updateCartRef){
+            $_SESSION['status'] = "Item Added to Cart Successfully.";
+            header("Location: products.php#product_list");
+            die();
+        }
+    } else {
+        foreach ($cartItems as $cartItem){
+            $cartItemSKU = $cartItem['item_sku'];
+            $cartUserID = $cartItem['uid'];
+            if($item_sku === $cartItemSKU){
+                if ($user_id === $cartUserID){
+                    $newPurchase_qty = $purchase_qty + $cartItem['purchase_qty'];
+                    $cartData = [
+                        'uid'=>$user_id,
+                        'item_sku'=>$item_sku,
+                        'item_name'=>$item_name,
+                        'item_imgurl'=>$item_imgurl,
+                        'item_price'=>$item_price,
+                        'purchase_qty'=>$newPurchase_qty,
+                        'purchase_remark'=>$purchase_remark,
+                        'cart_key'=>$cartItem['cart_key']
+                    ];
+
+                    $cartKey = $cartItem['cart_key'];
+                    $updateCart_table = 'cart/'.$cartKey;
+                    $postCartRef = $database->getReference($updateCart_table)->update($cartData);
+
+                    if($postCartRef){
+                        $_SESSION['status'] = "Item Added to Cart Successfully.";
+                        header("Location: products.php#product_list");
+                        die();
+                    }
+                }
+
+            } else {
                 $cartData = [
                     'uid'=>$user_id,
                     'item_sku'=>$item_sku,
                     'item_name'=>$item_name,
                     'item_imgurl'=>$item_imgurl,
                     'item_price'=>$item_price,
-                    'purchase_qty'=>$newPurchase_qty,
+                    'purchase_qty'=>$purchase_qty,
                     'purchase_remark'=>$purchase_remark,
-                    'cart_key'=>$cartItem['cart_key']
+                    'cart_key'=>''
+                ];
+                $postCartRef = $database->getReference($cart_table)->push($cartData)->getKey();
+                $cartUpdate = [
+                    'uid'=>$user_id,
+                    'item_sku'=>$item_sku,
+                    'item_name'=>$item_name,
+                    'item_imgurl'=>$item_imgurl,
+                    'item_price'=>$item_price,
+                    'purchase_qty'=>$purchase_qty,
+                    'purchase_remark'=>$purchase_remark,
+                    'cart_key'=>$postCartRef
                 ];
 
-                $cartKey = $cartItem['cart_key'];
-                $updateCart_table = 'cart/'.$cartKey;
-                $postCartRef = $database->getReference($updateCart_table)->update($cartData);
+                $updateCart_table = 'cart/'.$postCartRef;
+                $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
 
-                if($postCartRef){
+                if($updateCartRef){
                     $_SESSION['status'] = "Item Added to Cart Successfully.";
                     header("Location: products.php#product_list");
                     die();
                 }
             }
             
-        } else {
-            $cartData = [
-                'uid'=>$user_id,
-                'item_sku'=>$item_sku,
-                'item_name'=>$item_name,
-                'item_imgurl'=>$item_imgurl,
-                'item_price'=>$item_price,
-                'purchase_qty'=>$purchase_qty,
-                'purchase_remark'=>$purchase_remark,
-                'cart_key'=>''
-            ];
-            $postCartRef = $database->getReference($cart_table)->push($cartData)->getKey();
-            $cartUpdate = [
-                'uid'=>$user_id,
-                'item_sku'=>$item_sku,
-                'item_name'=>$item_name,
-                'item_imgurl'=>$item_imgurl,
-                'item_price'=>$item_price,
-                'purchase_qty'=>$purchase_qty,
-                'purchase_remark'=>$purchase_remark,
-                'cart_key'=>$postCartRef
-            ];
-            
-            $updateCart_table = 'cart/'.$postCartRef;
-            $updateCartRef = $database->getReference($updateCart_table)->update($cartUpdate);
-            
-            if($updateCartRef){
-                $_SESSION['status'] = "Item Added to Cart Successfully.";
-                header("Location: products.php#product_list");
-                die();
-            }
-        }
         
 //        $cartKey = $cartItem['cart_key'];
 //        if ($cartKey !== ''){
@@ -126,6 +160,7 @@ if (isset($_POST['btnAddToCart'])){
 //                die();
 //            }
 //        }
+        }
     }
 }
 //            foreach ($products as $product){

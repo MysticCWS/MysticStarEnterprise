@@ -67,7 +67,7 @@ if (isset($_POST['btnAddProduct'])){
     $product_description = $_POST['product_description'];
     $stockbalance = $_POST['stockbalance'];
     
-    if (isset($_FILES['myfile']['name'])){
+    if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
         $product_imgurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/products%2F";
         $product_imrurlsuffix = "?alt=media";
         $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
@@ -141,7 +141,7 @@ $products = $database->getReference($ref_table)->getValue();
                             <div class="edit-photo">Edit Photo</div>
                         </div>
                         <!-- Hidden file input to upload image --> 
-                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
+                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)" required="">
                         <br>
 
                         <label for="product_name">Product Name</label>

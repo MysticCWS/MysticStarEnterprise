@@ -47,7 +47,9 @@ if (isset($_POST['btnPayment'])){
     
     foreach ($cartUIDItems as $cartUIDItem){
         $cartUIDSKU = $cartUIDItem['item_sku'];
-        $cartUIDpqty = $cartUIDItem['purchase_qty']; 
+        $cartUIDpqty = $cartUIDItem['purchase_qty'];
+        $cartUIDremark = $cartUIDItem['purchase_remark'];
+        
         $orderData = [
             'uid' => $uid,
             'attn' => $attn,
@@ -60,6 +62,7 @@ if (isset($_POST['btnPayment'])){
             'txnID' => $txnID,
             'item_sku' => $cartUIDSKU,
             'purchase_qty' => $cartUIDpqty,
+            'purchase_remark' => $cartUIDremark,
             'status' => 'Pending'
         ];
 
@@ -72,7 +75,7 @@ if (isset($_POST['btnPayment'])){
         $updateOrder_table = 'order/'.$postOrderRef;
         $updateOrderRef = $database->getReference($updateOrder_table)->update($orderUpdate);
         
-        $cart_id = $cartUIDItem['cart_id'];
+        $cart_id = $cartUIDItem['cart_key'];
     
         $deleteCart_table = 'cart/'.$cart_id;
         $deleteCartRef = $database->getReference($deleteCart_table)->remove();
@@ -163,7 +166,7 @@ if (isset($_POST['btnPayment'])){
                 <input type="text" class="form-control" id="postcode" name="postcode" value="<?php echo $deliveryData['postcode']; ?>" hidden="">
                 <input type="text" class="form-control" id="state" name="state" value="<?php echo $deliveryData['state']; ?>" hidden="">
                 <input type="text" class="form-control" id="ptotal" name="ptotal" value="<?php echo $purchase_total; ?>" hidden="">
-                <input type="datetime-local" class="form-control" id="datetime" name="datetime" value="<?php echo date("Y/m/d H:i:s"); ?>" hidden="">
+                <input type="text" class="form-control" id="datetime" name="datetime" value="<?php echo date("Y/m/d H:i:s"); ?>" hidden="">
                 
                 <label for="txnID">Transaction ID: </label>
                 <input type="text" class="form-control" id="txnID" name="txnID" value="" required="">

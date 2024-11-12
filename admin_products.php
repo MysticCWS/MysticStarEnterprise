@@ -16,14 +16,14 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
-    $defaultBucket->upload(
-        file_get_contents($_FILES['myfile']['tmp_name']),
-        [
-        'name' =>"products/".$sku.".png"
-        ]
-    );
-}
+//if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
+//    $defaultBucket->upload(
+//        file_get_contents($_FILES['myfile']['tmp_name']),
+//        [
+//        'name' =>"products/".$sku.".png"
+//        ]
+//    );
+//}
 
 if (isset($_POST['btnSaveChanges'])){
     $sku = $_POST['sku'];
@@ -32,10 +32,17 @@ if (isset($_POST['btnSaveChanges'])){
     $product_description = $_POST['product_description'];
     $stockbalance = $_POST['stockbalance'];
     
-    if (isset($_FILES['myfile']['name'])){
+    if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
         $product_imgurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/products%2F";
         $product_imrurlsuffix = "?alt=media";
         $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
+        
+        $defaultBucket->upload(
+            file_get_contents($_FILES['myfile']['tmp_name']),
+            [
+            'name' =>"products/".$sku.".png"
+            ]
+        );
         
     } else {
         
@@ -156,6 +163,9 @@ $products = $database->getReference($ref_table)->getValue();
                                         <form id="editProductForm" method="POST" enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <input type="hidden" name="sku" value="<?php echo $product['sku']; ?>">
+                                                
+                                                <!-- Hidden input for the existing product image URL -->
+                                                <input type="hidden" name="product_imgurl" value="<?php echo $product['product_imgurl']; ?>">
                                                 <div class="" onclick="document.getElementById('file-input').click();">
                                                     <img src="<?php echo $product['product_imgurl'];?>" alt="Product Picture of <?php echo $product['sku']; ?>" id="product-img" width="300px" height="300px">
                                                     <div class="edit-photo">Edit Photo</div>
