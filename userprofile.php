@@ -49,6 +49,25 @@ if (isset($_POST['btnSave'])){
     
     $updatedUser = $auth -> updateUser($uid, $userProperties);
 }
+
+// Remove Profile Photo
+if (isset($_POST['btnRemovePhoto'])) {
+    // Delete the photo from Firebase Storage
+    $imagePath = "profile/" . $uid . ".png"; // Path to the user's profile photo
+    $deleteObject = $defaultBucket->object($imagePath);
+    $deleteObject->delete(); // Remove photo from Firebase Storage
+
+    // Update the user's photoUrl to null in Firebase Authentication
+    $userProperties = [
+        'photoUrl' => ''
+    ];
+    $updatedUser = $auth->updateUser($uid, $userProperties);
+
+    // Provide feedback
+    $_SESSION['status'] = "Profile photo removed successfully.";
+    header("Location: profile.php"); // Redirect to the profile page
+    die();
+}
 ?>
 
 <div class="content">
@@ -96,8 +115,33 @@ if (isset($_POST['btnSave'])){
                 <button id="btnSave" class="btnSave" name="btnSave" type="submit">Save Changes</button>
             </div>
         </form>
+        
+        <!-- Remove Profile Photo Button -->
+        <button class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#removePhotoModal">Remove Profile Photo</button>
     </div>
 </div>
+
+<!-- Modal for Confirming Photo Deletion -->
+<div class="modal fade" id="removePhotoModal" tabindex="-1" aria-labelledby="removePhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removePhotoModalLabel">Confirm Photo Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove your profile photo? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST">
+                    <button type="submit" name="btnRemovePhoto" class="btn btn-danger">Remove Photo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
     
 <?php
 include 'includes\footer.php';

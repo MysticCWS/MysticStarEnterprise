@@ -16,14 +16,14 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
-    $defaultBucket->upload(
-        file_get_contents($_FILES['myfile']['tmp_name']),
-        [
-        'name' =>"products/".$sku.".png"
-        ]
-    );
-}
+//if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
+//    $defaultBucket->upload(
+//        file_get_contents($_FILES['myfile']['tmp_name']),
+//        [
+//        'name' =>"products/".$sku.".png"
+//        ]
+//    );
+//}
 
 if (isset($_POST['btnUpdateStock'])){
     $sku = $_POST['sku'];
@@ -32,10 +32,17 @@ if (isset($_POST['btnUpdateStock'])){
     $product_description = $_POST['product_description'];
     $stockbalance = $_POST['stockbalance'];
     
-    if (isset($_FILES['myfile']['name'])){
+    if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['error'] == UPLOAD_ERR_OK){
         $product_imgurlprefix = "https://firebasestorage.googleapis.com/v0/b/mysticstarenterprise.appspot.com/o/products%2F";
         $product_imrurlsuffix = "?alt=media";
         $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
+        
+        $defaultBucket->upload(
+        file_get_contents($_FILES['myfile']['tmp_name']),
+        [
+        'name' =>"products/".$sku.".png"
+        ]
+    );
         
     } else {
         $product_imgurl = $_POST['product_imgurl'];
@@ -53,7 +60,7 @@ if (isset($_POST['btnUpdateStock'])){
     $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
     
     if($updateProductRef){
-        $_SESSION['status'] = "Saved Changes Successfully.";
+        $_SESSION['status'] = "Stock Updated Successfully.";
         header("Location: admin_products.php#product_list");
         die();
     }
@@ -95,7 +102,7 @@ if (isset($_POST['btnAddProduct'])){
     $updateProductRef = $database->getReference($updateProduct_table)->update($productProperties);
     
     if($updateProductRef){
-        $_SESSION['status'] = "Saved Changes Successfully.";
+        $_SESSION['status'] = "Product Added Successfully.";
         header("Location: admin_products.php#product_list");
         die();
     }

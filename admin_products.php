@@ -73,6 +73,16 @@ if (isset($_POST['btnDeleteProduct'])){
     $deleteProduct_table = 'product/'.$sku;
     $deleteProductRef = $database->getReference($deleteProduct_table)->remove();
     
+    //set url of photo to delete, get from database
+    $product = $products[$sku]; // Fetch the product data using SKU
+    $product_imgurl = $product['product_imgurl'];
+    
+    //Delete image from firebase storage
+    if (isset($product_imgurl)) {
+        $deleteObject = $defaultBucket->object($imgPath);
+        $deleteObject->delete();
+    }
+    
     if($deleteProductRef){
         $_SESSION['status'] = "Product removed successfully.";
         header("Location: admin_products.php#product_list");
