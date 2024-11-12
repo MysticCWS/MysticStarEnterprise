@@ -82,7 +82,7 @@ $cartItems = $database->getReference($cart_table)->getValue($uid);
 
 //Fetch user delivery address from database
 $delivery_table = 'delivery';
-$deliveryDatas = $database->getReference($delivery_table)->getValue($uid);
+$deliveryDatas = $database->getReference($delivery_table)->getValue();
 
 ?>
 
@@ -158,10 +158,18 @@ $deliveryDatas = $database->getReference($delivery_table)->getValue($uid);
         </div>
     </div>
     
-    <?php foreach ($deliveryDatas as $deliveryData): ?>
     <?php 
-    $deliveryUID = $deliveryData['uid'];
-    if ($uid == $deliveryUID): ?>
+    $deliveryData = null;
+    foreach ($deliveryDatas as $deliveryDataAll): ?>
+    <?php 
+    $deliveryUID = $deliveryDataAll['uid'];
+    if ($deliveryUID == $uid){
+        $deliveryData = $deliveryDataAll;
+        break;
+    } 
+    ?>
+    <?php endforeach; ?>
+    <?php if ($deliveryData): ?>
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="deliveryAddress">
         <div class="title">
             <h2>Confirm Delivery Address</h2>
@@ -204,7 +212,7 @@ $deliveryDatas = $database->getReference($delivery_table)->getValue($uid);
             <button type="submit" class="btn btn-outline-secondary" name="btnSaveAddressProceed">Proceed</button>
         </form>
     </div>
-    <?php break; ?>
+
     <?php else: ?>
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="deliveryAddress">
         <div class="title">
@@ -248,9 +256,7 @@ $deliveryDatas = $database->getReference($delivery_table)->getValue($uid);
             <button type="submit" class="btn btn-outline-secondary" name="btnSaveAddressProceed">Proceed</button>
         </form>
     </div>
-    <?php break; ?>
     <?php endif; ?>
-    <?php endforeach; ?>
 
 
 </div>
