@@ -19,7 +19,7 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
-if (isset($_FILES['myfile']['name'])){
+if (isset($_FILES['myfile']['name']) && $_FILES['myfile']['name'] !== ""){
     $defaultBucket->upload(
         file_get_contents($_FILES['myfile']['tmp_name']),
         [
@@ -32,6 +32,14 @@ if (isset($_POST['btnSave'])){
     $user_name = $_POST['user_name'];
     $user_contact = $_POST['user_contact'];
     
+    // If no new photo was uploaded, use the existing photo URL
+    if (!isset($_FILES['myfile']['name']) || $_FILES['myfile']['name'] === "") {
+        $userProperties = [
+            'displayName' => $user_name,
+            'photoUrl' => $userurl, // Keep the old photo URL if no new photo is uploaded
+            'phoneNumber' => $user_contact
+        ];
+    }
     if(URLcheck($userurl)){
         $userProperties = [
             'displayName' => $user_name,
@@ -48,6 +56,12 @@ if (isset($_POST['btnSave'])){
     }
     
     $updatedUser = $auth -> updateUser($uid, $userProperties);
+    
+    if($updatedUser){
+        $_SESSION['status'] = "Profile Updated Successfully.";
+        header("Location: userprofile.php");
+        die();
+    }
 }
 
 // Remove Profile Photo
@@ -71,6 +85,13 @@ if (isset($_POST['btnRemovePhoto'])) {
 ?>
 
 <div class="content">
+    <!--Show Status-->
+    <?php
+        if(isset($_SESSION['status'])){
+            echo "<h5 class='alert alert-success'>".$_SESSION['status']."</h5>";
+            unset($_SESSION['status']);
+        }
+    ?>
     <div class="title">
         <h2>Profile Information</h2>
     </div>
