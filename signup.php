@@ -62,7 +62,7 @@ include 'includes\header2.php';
                 <div class="form-floating">
                     <input id="contact" class="form-control" type="text" name="user_contact" placeholder="Contact" required>
                     <label for="contact">Contact (01XXXXXXXX)</label>
-                    <div class="invalid-feedback">Phone number must start with 0, be exactly 11 digits, and contain only numbers.</div>
+                    <div class="invalid-feedback">Phone number must start with 0, be exactly 10 or 11 digits, and contain only numbers.</div>
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@ function validateForm() {
 
     // Phone number validation
     const contact = document.getElementById('contact');
-    const phonePattern = /^0\d{10}$/;
+    const phonePattern = /^0\d{9,10}$/;
     contact.classList.remove('is-valid', 'is-invalid'); // Reset classes first
     
     if (!phonePattern.test(contact.value)) {
