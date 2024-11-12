@@ -151,7 +151,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                
+                                <p>Accepted Models are entitled to claim RM5/unit (unless different amount stated) if criteria are met as below:</p>
+                                <p>1) Only Original cartridges are accepted, no refilled / counterfeit shall be accepted.</p>
+                                <p>2) Cartridge printhead and label stickers should be in good condition and label text should be readable.</p>
+                                <p>3) Please take a photo of the cartridges and submit it in the form.</p>
+                                <p>4) Kindly pack the cartridges in a plastic bag / if quantity is more than 5 units.</p>
+                                <p>Submitted cartridges will be inspected, and the amount will be credited accordingly to your preferred payment after processing.</p>
+                                <p>By submitting this form, you agree to the terms outlined above.</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
