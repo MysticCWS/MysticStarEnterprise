@@ -16,6 +16,8 @@ if(isset($_SESSION['verified_user_id'])){
     }
 }
 
+date_default_timezone_set('Singapore');
+
 //Fetch product from database
 $ref_table = 'product';
 $products = $database->getReference($ref_table)->getValue();
@@ -38,6 +40,8 @@ if (isset($_POST['btnPayment'])){
     $address2 = $_POST['address2'];
     $postcode = $_POST['postcode'];
     $state = $_POST['state'];
+    $ptotal = $_POST['ptotal'];
+    $datetime = $_POST['datetime'];
     
     $txnID = $_POST['txnID'];
     
@@ -51,6 +55,8 @@ if (isset($_POST['btnPayment'])){
             'address2' => $address2,
             'postcode' => $postcode,
             'state' => $state,
+            'ptotal' => $ptotal,
+            'datetime' => $datetime,
             'txnID' => $txnID,
             'item_sku' => $cartUIDSKU,
             'purchase_qty' => $cartUIDpqty,
@@ -70,6 +76,21 @@ if (isset($_POST['btnPayment'])){
     
         $deleteCart_table = 'cart/'.$cart_id;
         $deleteCartRef = $database->getReference($deleteCart_table)->remove();
+        
+        foreach ($products as $product){
+            $productSKU = $product['sku'];
+            $productSB = $product['stockbalance'];
+            
+            if ($productSKU == $cartUIDSKU){
+                $productSB = $productSB - $cartUIDpqty;
+                
+                $productSBUpdate = [
+                    'stockbalance' => $productSB
+                ];
+                $updateProductSB_table = $ref_table.'/'.$productSKU;
+                $updateProductSBRef = $database->getReference($updateProductSB_table)->update($productSBUpdate);
+            }
+        }
     }
     
     if($updateOrderRef){
@@ -141,6 +162,8 @@ if (isset($_POST['btnPayment'])){
                 <input type="text" class="form-control" id="address2" name="address2" value="<?php echo $deliveryData['address2']; ?>" hidden="">
                 <input type="text" class="form-control" id="postcode" name="postcode" value="<?php echo $deliveryData['postcode']; ?>" hidden="">
                 <input type="text" class="form-control" id="state" name="state" value="<?php echo $deliveryData['state']; ?>" hidden="">
+                <input type="text" class="form-control" id="ptotal" name="ptotal" value="<?php echo $purchase_total; ?>" hidden="">
+                <input type="datetime-local" class="form-control" id="datetime" name="datetime" value="<?php echo date("Y/m/d H:i:s"); ?>" hidden="">
                 
                 <label for="txnID">Transaction ID: </label>
                 <input type="text" class="form-control" id="txnID" name="txnID" value="" required="">

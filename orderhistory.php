@@ -54,7 +54,65 @@ $orderItems = $database->getReference($order_table)->orderByChild('uid')->equalT
         
         <?php else: ?>
         <table class="table">
-            
+            <thead>
+                <tr style="text-align: center">
+                    <th scope="col">Transaction ID</th>
+                    <th scope="col">Ordered On</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Price (RM)</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orderItems as $orderItem): ?>
+                <?php 
+                $orderItemStatus = $orderItem['status'];
+                $orderItemSKU = $orderItem['item_sku'];
+                if ($orderItemStatus == 'Pending'): ?>
+                    <tr style="vertical-align: middle; text-align: center;">
+                        <td><?php echo $orderItem['txnID']; ?></td>
+                        <td><?php echo $orderItem['datetime']; ?></td>
+                        <td><?php echo $orderItem['item_sku']; ?></td>
+                        <?php foreach ($products as $product): ?>
+                        <?php 
+                        $productSKU = $product['sku'];
+                        if ($productSKU == $orderItemSKU): ?>
+                        <td><img src="<?php echo $product['product_imgurl']; ?>" style="min-width:100px; overflow:hidden; max-height:100px;" alt="<?php echo $product['product_name']?>"/></td>
+                        <td><?php echo $product['product_name']; ?></td>
+                        <td><?php echo $product['product_price']; ?></td>
+                        <?php endif;?>
+                        <?php endforeach; ?>
+                        <td><?php echo $orderItem['purchase_qty']; ?></td>
+                        <td><?php echo $orderItem['status']; ?></td>
+                        <td>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editCartModal-<?php echo $cartItem['item_sku']; ?>">
+                                Reorder
+                            </button>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                
+                <?php foreach ($orderItems as $orderItem): ?>
+                <?php 
+                $orderItemStatus = $orderItem['status'];
+                if ($orderItemStatus != 'Pending' && $orderItemStatus != 'Completed'): ?>
+                
+                <?php endif; ?>
+                <?php endforeach; ?>
+                
+                <?php foreach ($orderItems as $orderItem): ?>
+                <?php 
+                $orderItemStatus = $orderItem['status'];
+                if ($orderItemStatus == 'Completed'): ?>
+                
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
         </table>
         
         <?php endif; ?>
