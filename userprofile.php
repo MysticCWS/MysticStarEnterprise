@@ -79,7 +79,7 @@ if (isset($_POST['btnRemovePhoto'])) {
 
     // Provide feedback
     $_SESSION['status'] = "Profile photo removed successfully.";
-    header("Location: profile.php"); // Redirect to the profile page
+    header("Location: userprofile.php"); // Redirect to the profile page
     die();
 }
 ?>
