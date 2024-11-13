@@ -181,7 +181,7 @@ $products = $database->getReference($ref_table)->getValue();
                                                     <div class="edit-photo">Edit Photo</div>
                                                 </div>
                                                 <!-- Hidden file input to upload image -->
-                                                <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)">
+                                                <input type="file" class="form-control" id="file-input" accept="image/png, image/jpeg" name="myfile" onchange="previewImage(event)">
                                                 <br>
                                                 
                                                 <label for="product_name">Product Name: </label>

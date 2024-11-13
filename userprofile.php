@@ -104,7 +104,7 @@ if (isset($_POST['btnRemovePhoto'])) {
                     <div class="edit-photo">Edit Photo</div>
                 </div>
                 <!-- Hidden file input to upload image -->
-                <input type="file" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)" hidden="true">
+                <input type="file" id="file-input" accept="image/png, image/jpeg" name="myfile" onchange="previewImage(event)" hidden="true">
             </div>
             
             <div class="row g-2 my-3 mx-2">

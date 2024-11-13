@@ -38,11 +38,11 @@ if (isset($_POST['btnUpdateStock'])){
         $product_imgurl = $product_imgurlprefix.$sku.".png".$product_imrurlsuffix;
         
         $defaultBucket->upload(
-        file_get_contents($_FILES['myfile']['tmp_name']),
-        [
-        'name' =>"products/".$sku.".png"
-        ]
-    );
+            file_get_contents($_FILES['myfile']['tmp_name']),
+            [
+            'name' =>"products/".$sku.".png"
+            ]
+        );
         
     } else {
         $product_imgurl = $_POST['product_imgurl'];
@@ -141,6 +141,7 @@ $products = $database->getReference($ref_table)->getValue();
                     <div class="mb-3">
                         <br>
                         <label for="name">SKU</label>
+                        <input type="text" class="form-control" id="sku" name="product_imgurl" value="<?php echo $product['product_imgurl']; ?>" hidden="">
                         <input type="text" class="form-control" id="sku" name="sku" value="<?php echo $sku; ?>" readonly=""><br>
                         
                         <div class="" onclick="document.getElementById('file-input').click();">
@@ -148,7 +149,7 @@ $products = $database->getReference($ref_table)->getValue();
                             <div class="edit-photo">Edit Photo</div>
                         </div>
                         <!-- Hidden file input to upload image --> 
-                        <input type="file" class="form-control" id="file-input" accept="image/png" name="myfile" onchange="previewImage(event)" required="">
+                        <input type="file" class="form-control" id="file-input" accept="image/png, image/jpeg" name="myfile" onchange="previewImage(event)">
                         <br>
 
                         <label for="product_name">Product Name</label>
