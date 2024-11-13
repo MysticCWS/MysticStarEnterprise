@@ -25,10 +25,13 @@ $carousel_images = $database->getReference($ref_table)->getValue();
     ?>
 
     <div class="title">
-        <h2>New Promotions</h2>
+        <h2>Home</h2>
     </div>
     
     <div class="container mt-5 px-4 py-4 border rounded bg-white" id="homepage">
+        <div class="title">
+            <h2><center>New Promotions</center></h2>
+        </div>
         <!-- Carousel -->
         <div class="c-wrapper">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
