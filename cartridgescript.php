@@ -4,6 +4,7 @@ include 'dbcon.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uid = $_POST['user_id'];
+    $name = $_POST['name'];
     $brand = $_POST['brand'];
     $model = $_POST['model'];
     $quantity = $_POST['quantity'];
@@ -77,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Store submission data in Firebase Realtime Database
     $data = [
         'user_id' => $uid,
+        'name' => $name,
         'brand' => $brand,
         'model' => $model,
         'quantity' => $quantity,

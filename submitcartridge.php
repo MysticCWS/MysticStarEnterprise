@@ -69,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2 class="title">Cartridge Recycling Program</h2>
             <form action="cartridgescript.php" method="POST" enctype="multipart/form-data" class="cartridge-form">
                 <input type="hidden" name="user_id" value="<?php echo $uid; ?>">
+                <input type="text" name="name" value="<?php echo $user->displayName; ?>" hidden="">
 
                 <!-- Printer Brand Selection -->
                 <div class="form-group">
