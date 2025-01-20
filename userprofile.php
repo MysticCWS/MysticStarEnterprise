@@ -96,7 +96,7 @@ if (isset($_POST['btnRemovePhoto'])) {
         <h2>Profile Information</h2>
     </div>
     
-    <div class="profile-container">
+    <div class="profile-container bg-white">
         <form id="profileForm" class="was-validated" method="POST" enctype="multipart/form-data">
             <div class="profile-header">
                 <div class="profile-picture" onclick="document.getElementById('file-input').click();">
@@ -138,7 +138,7 @@ if (isset($_POST['btnRemovePhoto'])) {
         </form>
         
         <!-- Remove Profile Photo Button -->
-        <button class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#removePhotoModal">Remove Profile Photo</button>
+        <button class="btn btn-danger mt-3 py-2" data-bs-toggle="modal" data-bs-target="#removePhotoModal">Remove Profile Photo</button>
     </div>
 </div>
 
